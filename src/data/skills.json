@@ -1,0 +1,114 @@
+{
+  "skills": [
+    {
+      "id": "1",
+      "name": "Java SE",
+      "type": "Base Language",
+      "stream": [
+        "iPaas",
+        "Modern Apps"
+      ],
+      "priority": "High"
+    },
+    {
+      "id": "2",
+      "name": "Java EE",
+      "type": "Web Language",
+      "stream": [
+        "iPaas",
+        "Modern Apps"
+      ],
+      "priority": "High"
+    },
+    {
+      "id": "3",
+      "name": "API Management",
+      "type": "Product",
+      "stream": [
+        "iPaas"
+      ],
+      "priority": "High"
+    },
+    {
+      "id": "4",
+      "name": "Data Integration",
+      "type": "Unknown",
+      "stream": [
+        "iPaas"
+      ],
+      "priority": "High"
+    },
+    {
+      "id": "5",
+      "name": "Oracle Integration Cloud Service",
+      "type": "Product",
+      "stream": [
+        "iPaas"
+      ],
+      "priority": "High"
+    },
+    {
+      "id": "6",
+      "name": "Oracle Robotic Process Automation",
+      "type": "Product",
+      "stream": [
+        "iPaas"
+      ],
+      "priority": "High"
+    },
+    {
+      "id": "7",
+      "name": "Kafka",
+      "type": "Product",
+      "stream": [
+        "iPaas"
+      ],
+      "priority": "High"
+    },
+    {
+      "id": "8",
+      "name": "Node JS",
+      "type": "Language",
+      "stream": [
+        "Modern Apps"
+      ],
+      "priority": "High"
+    },
+    {
+      "id": "9",
+      "name": "Microservices",
+      "type": "Web Services",
+      "stream": [
+        "Modern Apps"
+      ],
+      "priority": "High"
+    },
+    {
+      "id": "10",
+      "name": "Oracle JET",
+      "type": "JavaScript Toolkit",
+      "stream": [
+        "Modern Apps"
+      ],
+      "priority": "High"
+    },
+    {
+      "id": "11",
+      "name": "Oracle Application Container Cloud Service",
+      "type": "Product",
+      "stream": [
+        "Modern Apps"
+      ],
+      "priority": "High"
+    },
+    {
+      "id": "12",
+      "name": "Blockchain",
+      "type": "Concept",
+      "stream": [
+        "Modern Apps"
+      ],
+      "priority": "Low"
+    }
+  ]
+}

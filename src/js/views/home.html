@@ -1,0 +1,30 @@
+<!--
+ Copyright (c) 2014, 2018, Oracle and/or its affiliates.
+ The Universal Permissive License (UPL), Version 1.0
+ -->
+<div class="oj-hybrid-padding">
+  <h1>Skills In Use</h1>
+  <div id="pictoContainer">
+    <div data-bind="if: apiLoaded" class="oj-flex">
+      <oj-bind-for-each data="[[masterSkillArray]]">
+        <template>
+          <div
+            class="oj-flex oj-flex-item oj-sm-flex-direction-column oj-sm-align-items-center oj-panel oj-sm-margin-2x">
+            <div class="oj-flex oj-sm-justify-content-center"
+              style="width:100%;margin:10px;font-size:15px;font-weight:bold;">
+              <span data-bind="text: $current.data.name"></span>
+            </div>
+            <oj-picto-chart data-bind="attr: {'id': $current.data.name}"
+              items="[[loadSkillData($current.data.skilledUsers)]]" tooltip.renderer="[[tooltipFunction]]"
+              style="width:100%;max-width:250px;min-height:130px;">
+            </oj-picto-chart>
+            <div class="oj-flex oj-sm-justify-content-center"
+              style="width:100%;margin:10px;background-color:#ececec;border-radius:5px;font-size:15px;font-weight:bold;">
+              <span data-bind="text: loadSkillPercent($current.data.skilledUsers)"></span>
+            </div>
+          </div>
+        </template>
+      </oj-bind-for-each>
+    </div>
+  </div>
+</div>
