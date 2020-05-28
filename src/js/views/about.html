@@ -1,10 +1,64 @@
-<!--
- Copyright (c) 2014, 2019, Oracle and/or its affiliates.
- The Universal Permissive License (UPL), Version 1.0
- -->
-<div class="oj-hybrid-padding">
-  <h1>About Content Area</h1>
-  <div>
-      To change the content of this section, you will make edits to the about.html file located in the /js/views folder.
+<div id='container'>
+  <div style="float:left">
+    <oj-label id="label" class="oj-label-inline" for="filter">Filter:</oj-label>
+    <oj-input-text id="filter" placeholder="Type to filter" on-raw-value-changed="[[handleValueChanged]]"
+      value="{{filter}}"></oj-input-text>
+    <oj-button id="clearButton" on-oj-action='[[clearClick]]' display='icons' chroming='half'>
+      <span slot='startIcon' class='oj-fwk-icon oj-fwk-icon-cross03'></span>
+      Clear
+    </oj-button>
+    <fieldset style="border:1px #b0b0b0 solid;padding:10px">
+      <legend style="border:1px #b0b0b0 solid;margin-left: 1em;padding:0.2em 0.8em">All Skills</legend>
+      <oj-table id="table" aria-label="Employee Table 1" data="[[tableDataProvider]]" columns='{{columnArray}}'
+        selection-mode='{"row": "multiple"}' selection='{{tableSelection}}'
+        dnd.drag.rows.data-types='["application/ojtablerows+json"]' dnd.drag.rows.drag-end="[[tableHandleDragEnd]]"
+        dnd.drop.rows.data-types='["application/ojlistviewitems+json"]' dnd.drop.rows.drop="[[tableHandleDrop]]"
+        edit-mode='rowEdit' edit-row='{{editRow}}' on-oj-before-row-edit='[[beforeRowEditListener]]'
+        on-oj-before-row-edit-end='[[beforeRowEditEndListener]]' </oj-table>
+    </fieldset>
   </div>
+  <template slot="deptNameTemplate" data-oj-as="cell">
+    <oj-bind-if test='[[cell.mode=="navigation"]]'>
+      <oj-bind-text value="[[cell.data]]"></oj-bind-text>
+    </oj-bind-if>
+
+    <oj-bind-if test='[[cell.mode=="edit"]]'>
+      <oj-input-text id="it1" value="{{rowData.name}}"></oj-input-text>
+
+    </oj-bind-if>
+  </template>
+
+  <div style="float:left;margin-left:20px">
+    <fieldset style="border:1px #b0b0b0 solid;padding:10px">
+      <legend style="border:1px #b0b0b0 solid;margin-left: 1em;padding:0.2em 0.8em">Your Skills</legend>
+
+      <oj-list-view id="listview" aria-label="list with static data" style="display: inline-block;width:350px"
+        data="[[listviewDataProvider]]" selection-mode="multiple" selection="{{listviewSelection}}"
+        dnd.drag.items.data-types='["application/ojlistviewitems+json"]'
+        dnd.drag.items.drag-end="[[listviewHandleDragEnd]]" dnd.drop.items.data-types='["application/ojtablerows+json"]'
+        dnd.drop.items.drop="[[listviewHandleDrop]]">
+        <template slot="itemTemplate" data-oj-as="item">
+          <div>
+            <!-- <span class="avatar" data-bind="style: {backgroundImage: 'url('+item.data.url+')'}"></span> -->
+            <div class="container">
+              <div>
+                <span>
+                  <oj-bind-text value="[[item.data.name]]"></oj-bind-text>
+                </span>
+              </div>
+              <div>
+                <oj-select-single value="proficient" data="[[proficiencyOptions]]">
+                </oj-select-single>
+              </div>
+              <!-- <div>
+                              <span class="oj-text-xs oj-text-secondary-color"><oj-bind-text value="[[item.data.job]]"></oj-bind-text></span>
+                          </div> -->
+            </div>
+          </div>
+        </template>
+      </oj-list-view>
+    </fieldset>
+  </div>
+
+  <div style="clear:both"></div>
 </div>
