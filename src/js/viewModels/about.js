@@ -1,39 +1,39 @@
 
-define(['accUtils', 'knockout', 'ojs/ojbootstrap', 'ojs/ojarraydataprovider', 'ojs/ojlistdataproviderview', 'factories/SkillFactory', 'ojs/ojknockout', 'ojs/ojlistviewdnd', 'ojs/ojtable', 'ojs/ojselectsingle', 'ojs/ojinputtext', 'ojs/ojbutton'],
-  function (accUtils, ko, Bootstrap, ArrayDataProvider, ListDataProviderView,  SkillFactory) {
+define(['accUtils', 'knockout', 'ojs/ojbootstrap', 'ojs/ojarraydataprovider', 'ojs/ojlistdataproviderview', 'factories/SkillFactory', 'ojs/ojconverter-number', 'ojs/ojdatacollection-utils', 'ojs/ojknockout', 'ojs/ojlistviewdnd', 'ojs/ojtable', 'ojs/ojselectcombobox', 'ojs/ojinputtext', 'ojs/ojbutton', 'ojs/ojselectsingle'],
+  function (accUtils, ko, Bootstrap, ArrayDataProvider, ListDataProviderView, SkillFactory, NumberConverter, DataCollectionEditUtils) {
 
     function AboutViewModel() {
       var self = this;
       self.editRow = ko.observable();
       var proficiencies = [{ value: 'introductory', label: 'Introductory' },
-        { value: 'progressing', label: 'progressing'},
-        { value: 'proficient', label: 'Proficient' },
-        { value: 'experienced', label: 'Experienced' },
-        { value: 'expert', label: 'Expert' }];
+      { value: 'progressing', label: 'progressing' },
+      { value: 'proficient', label: 'Proficient' },
+      { value: 'experienced', label: 'Experienced' },
+      { value: 'expert', label: 'Expert' }];
 
       self.proficiencyOptions = new ArrayDataProvider(proficiencies, { keyAttributes: 'value' });
 
       self.filter = ko.observable();
 
-      var skills = [{"id":"1","name":"JavaSE","type":"BaseLanguage","stream":["iPaas","ModernApps"],"priority":"High"},
-      {"id":"2","name":"JavaEE","type":"WebLanguage","stream":["iPaas","ModernApps"],"priority":"High"},
-      {"id":"3","name":"APIManagement","type":"Product","stream":["iPaas"],"priority":"High"},
-      {"id":"4","name":"DataIntegration","type":"Unknown","stream":["iPaas"],"priority":"High"},
-      {"id":"5","name":"OracleIntegrationCloudService","type":"Product","stream":["iPaas"],"priority":"High"}];
+      var skills = [{ "id": "1", "name": "JavaSE", "type": "BaseLanguage", "stream": ["iPaas", "ModernApps"], "priority": "High" },
+      { "id": "2", "name": "JavaEE", "type": "WebLanguage", "stream": ["iPaas", "ModernApps"], "priority": "High" },
+      { "id": "3", "name": "APIManagement", "type": "Product", "stream": ["iPaas"], "priority": "High" },
+      { "id": "4", "name": "DataIntegration", "type": "Unknown", "stream": ["iPaas"], "priority": "High" },
+      { "id": "5", "name": "OracleIntegrationCloudService", "type": "Product", "stream": ["iPaas"], "priority": "High" }];
 
-      var skills2 = [{"id":"6","name":"OracleRoboticProcessAutomation","type":"Product","stream":["iPaas"],"priority":"High"},
-      {"id":"7","name":"Kafka","type":"Product","stream":["iPaas"],"priority":"High"},
-      {"id":"8","name":"NodeJS","type":"Language","stream":["ModernApps"],"priority":"High"},
-      {"id":"9","name":"Microservices","type":"WebServices","stream":["ModernApps"],"priority":"High"},
-      {"id":"10","name":"OracleJET","type":"JavaScriptToolkit","stream":["ModernApps"],"priority":"High"},
-      {"id":"11","name":"OracleApplicationContainerCloudService","type":"Product","stream":["ModernApps"],"priority":"High"},
-      {"id":"12","name":"Blockchain","type":"Concept","stream":["ModernApps"],"priority":"Low"}];
-      
+      var skills2 = [{ "id": "6", "name": "OracleRoboticProcessAutomation", "type": "Product", "stream": ["iPaas"], "priority": "High" },
+      { "id": "7", "name": "Kafka", "type": "Product", "stream": ["iPaas"], "priority": "High" },
+      { "id": "8", "name": "NodeJS", "type": "Language", "stream": ["ModernApps"], "priority": "High" },
+      { "id": "9", "name": "Microservices", "type": "WebServices", "stream": ["ModernApps"], "priority": "High" },
+      { "id": "10", "name": "OracleJET", "type": "JavaScriptToolkit", "stream": ["ModernApps"], "priority": "High" },
+      { "id": "11", "name": "OracleApplicationContainerCloudService", "type": "Product", "stream": ["ModernApps"], "priority": "High" },
+      { "id": "12", "name": "Blockchain", "type": "Concept", "stream": ["ModernApps"], "priority": "Low" }];
+
       self.beforeRowEditListener = function (event) {
         var key = event.detail.rowContext.status.rowKey;
-        self.tableDataProvider.fetchByKeys({keys: [key]}).then(function (fetchResult) {
-          this.rowData = {};
-          Object.assign(this.rowData, fetchResult.results.get(key).data);
+        self.tableDataProvider.fetchByKeys({ keys: [key] }).then(function (fetchResult) {
+          self.rowData = {};
+          Object.assign(self.rowData, fetchResult.results.get(key).data);
         })
       }
 
@@ -48,8 +48,8 @@ define(['accUtils', 'knockout', 'ojs/ojbootstrap', 'ojs/ojarraydataprovider', 'o
         if (DataCollectionEditUtils.basicHandleRowEditEnd(event, detail) === false) {
           event.preventDefault();
         } else {
-          deptArray.splice(detail.rowContext.status.rowIndex, 1, this.rowData);
-          document.getElementById('rowDataDump').value = (JSON.stringify(this.rowData));
+          skills.splice(detail.rowContext.status.rowIndex, 1, self.rowData);
+          document.getElementById('rowDataDump').value = (JSON.stringify(self.rowData));
         }
       }
 
@@ -70,6 +70,7 @@ define(['accUtils', 'knockout', 'ojs/ojbootstrap', 'ojs/ojarraydataprovider', 'o
         return new ListDataProviderView(arrayDataProvider, { filterCriterion: filterCriterion });
       }, this);
 
+      // // HANDLE DRAG AND DROP // //
       self.tableHandleDrop = function (event, context) {
         var data;
         var i;
@@ -89,7 +90,6 @@ define(['accUtils', 'knockout', 'ojs/ojbootstrap', 'ojs/ojarraydataprovider', 'o
       // eslint-disable-next-line no-unused-vars
       self.tableHandleDragEnd = function (event, context) {
         if (event.dataTransfer.dropEffect !== 'none') {
-          oj.Logger.error("hit1");
           for (var i = 0; i < self.tableSelection.length; i++) {
             var startkey = self.tableSelection[i].startKey.row;
             var start = -1;
@@ -128,7 +128,6 @@ define(['accUtils', 'knockout', 'ojs/ojbootstrap', 'ojs/ojarraydataprovider', 'o
             index += 1;
           }
 
-          oj.Logger.error("hit2");
           for (i = data.length - 1; i >= 0; i--) {
             skills2.splice(index, 0, data[i].data);
           }
@@ -193,22 +192,90 @@ define(['accUtils', 'knockout', 'ojs/ojbootstrap', 'ojs/ojarraydataprovider', 'o
         context.cellContext.parentElement.innerHTML = data;
       }
 
-      self.columnArray = [{
-        headerText: 'ID',
-        renderer: self.highlightingCellRenderer
-      },
-      {
-        headerText: 'Name',
-        renderer: self.highlightingCellRenderer
-      },
-      {
-        headerText: 'Type',
-        renderer: self.highlightingCellRenderer
-      },
-      {
-        headerText: 'Priority',
-        renderer: self.highlightingCellRenderer
-      }];
+      self.columnArray =
+        [{
+          field: 'id',
+          headerText: "ID",
+          headerStyle: "min-width: 8em; max-width: 8em; width: 8em",
+          headerClassName: "oj-helper-text-align-end",
+          style: "min-width: 8em; max-width: 8em; width: 8em",
+          className: "oj-helper-text-align-end oj-read-only",
+          template: "idTemplate",
+          // renderer: self.highlightingCellRenderer
+        },
+        {
+          field: "name",
+          headerText: "Name",
+          headerStyle: "min-width: 15em; max-width: 15em; width: 15em",
+          style: "min-width: 15em; max-width: 15em; width: 15em",
+          renderer: self.highlightingCellRenderer,
+          template: "nameTemplate"
+          // renderer: ''
+        },
+        {
+          field: "type",
+          headerText: "Type",
+          headerStyle: "min-width: 12em; max-width: 12em; width: 12em",
+          headerClassName: "oj-helper-text-align-end",
+          style: "min-width: 12em; max-width: 12em; width: 12em",
+          className: "oj-helper-text-align-end",
+          template: "typeTemplate",
+          // renderer: self.highlightingCellRenderer
+        },
+        {
+          field: "priority",
+          headerText: "Priority",
+          headerStyle: "min-width: 10em; max-width: 10em; width: 10em",
+          style: "min-width: 10em; max-width: 10em; width: 10em",
+          template: "priorityTemplate",
+          // renderer: self.highlightingCellRenderer
+        },
+        {
+          headerText: "Action",
+          headerStyle: "min-width: 10em; max-width: 10em; width: 10em; text-align: center;",
+          style: "min-width: 10em; max-width: 10em; width: 10em; padding-top: 0px; padding-bottom: 0px; text-align: center;",
+          template: "actionTemplate"
+        }];
+
+      self.deptObservableArray = ko.observableArray(skills);
+      self.dataprovider = new ArrayDataProvider(self.deptObservableArray, { keyAttributes: 'id' });
+
+      // // HANDLE EDIT ROWS // //
+      self.numberConverter = new NumberConverter.IntlNumberConverter();
+
+      self.editRow = ko.observable();
+
+      self.beforeRowEditListener = function (event) {
+        var key = event.detail.rowContext.status.rowKey;
+        self.dataprovider.fetchByKeys({ keys: [key] }).then(function (fetchResult) {
+          self.rowData = {};
+          Object.assign(self.rowData, fetchResult.results.get(key).data);
+        });
+      }
+
+      self.beforeRowEditEndListener = function (event) {
+        // the DataCollectionEditUtils.basicHandleRowEditEnd is a utility method
+        // which will handle validation of editable components and also handle
+        // canceling the edit
+        var detail = event.detail;
+        if (detail.cancelEdit == true) {
+          return;
+        }
+        if (DataCollectionEditUtils.basicHandleRowEditEnd(event, detail) === false) {
+          event.preventDefault();
+        } else {
+          skills.splice(detail.rowContext.status.rowIndex, 1, self.rowData);
+        }
+      }
+
+      self.handleUpdate = function (event, context) {
+        self.editRow({ rowKey: context.key });
+      }
+
+      // eslint-disable-next-line no-unused-vars
+      self.handleDone = function (event, context) {
+        self.editRow({ rowKey: null });
+      }
       // Below are a set of the ViewModel methods invoked by the oj-module component.
       // Please reference the oj-module jsDoc for additional information.
 
