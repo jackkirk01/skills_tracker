@@ -1,0 +1,7 @@
+[{ "id": 10, "name": "Dan Raphael", "department": "Research", "salary": 150000, "job": "Director"},
+                            { "id": 11, "name": "David Young", "department": "Marketing", "salary": 120000, "job": "Marketing Manager"},
+                            { "id": 12, "name": "Julia Chen", "department": "Marketing", "salary": 120000, "job": "Marketing Manager"},
+                            { "id": 13, "name": "Jon Wu", "department": "Research", "salary": 120000, "job": "Product Manager"},
+                            { "id": 14, "name": "Kelly Sullivan", "department": "Marketing", "salary": 150000, "job": "Director"},
+                            { "id": 15, "name": "Laura Bissot", "department": "Accounts", "salary": 80000, "job": "Accountant"},
+                            { "id": 16, "name": "Simon Austin", "department": "Research", "salary": 100000, "job": "Developer"}]
