@@ -1,0 +1,56 @@
+{
+    "skillId": 1,
+    "name": "Java EE",
+    "type": "Product",
+    "priority": "LOW",
+    "users": [
+        {
+            "userId": 1,
+            "firstName": "Jack",
+            "surname": "Kirk",
+            "proficiency": "EXPERIENCED"
+        },
+        {
+            "userId": 2,
+            "firstName": "James",
+            "surname": "Neate",
+            "proficiency": "EXPERT"
+        },
+        {
+            "userId": 1,
+            "firstName": "Jack",
+            "surname": "Kirk",
+            "proficiency": "PROFICIENT"
+        },
+        {
+            "userId": 2,
+            "firstName": "James",
+            "surname": "Neate",
+            "proficiency": "INTRODUCTORY"
+        },
+        {
+            "userId": 1,
+            "firstName": "Jack",
+            "surname": "Kirk",
+            "proficiency": "PROGRESSING"
+        },
+        {
+            "userId": 2,
+            "firstName": "James",
+            "surname": "Neate",
+            "proficiency": "EXPERT"
+        },
+        {
+            "userId": 1,
+            "firstName": "Jack",
+            "surname": "Kirk",
+            "proficiency": "EXPERIENCED"
+        },
+        {
+            "userId": 2,
+            "firstName": "James",
+            "surname": "Neate",
+            "proficiency": "PROFICIENT"
+        }
+    ]
+}

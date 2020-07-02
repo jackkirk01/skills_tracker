@@ -1,7 +1,9 @@
+<h1>Skills Selection</h1>
+<p>Please select the skills you have by dragging the skill from the "All Skills" list and dropping it into the "Your Skills" list. You may also select multiple skills by holding CTRL, selecting the relevant skills and dragging them into your skills.</p>
 <div id='container'>
   <div>
-    <oj-label id="label" class="oj-label-inline" for="filter">Filter:</oj-label>
-    <oj-input-text id="filter" placeholder="Type to filter" on-raw-value-changed="[[handleValueChanged]]"
+    <oj-label id="label" class="oj-label-inline" for="filter">Search:</oj-label>
+    <oj-input-text id="filter" placeholder="Type to search" on-raw-value-changed="[[handleValueChanged]]"
       value="{{filter}}"></oj-input-text>
     <oj-button id="clearButton" on-oj-action='[[clearClick]]' display='icons' chroming='half'>
       <span slot='startIcon' class='oj-fwk-icon oj-fwk-icon-cross03'></span>
@@ -18,93 +20,40 @@
         edit-mode='rowEdit' edit-row='{{editRow}}' on-oj-before-row-edit='[[beforeRowEditListener]]'
         on-oj-before-row-edit-end='[[beforeRowEditEndListener]]'></oj-table> -->
 
-      <oj-table id="table" aria-label="Skills table" data='[[tableDataProvider]]' edit-mode='rowEdit' edit-row='{{editRow}}'
-        on-oj-before-row-edit='[[beforeRowEditListener]]' on-oj-before-row-edit-end='[[beforeRowEditEndListener]]'
+      <oj-table id="table" aria-label="Skills table" data='[[tableDataProvider]]'columns='[[columnArray]]'
         columns-default.sortable='disabled' selection-mode='{"row": "multiple"}' selection='{{tableSelection}}'
         dnd.drag.rows.data-types='["application/ojtablerows+json"]' dnd.drag.rows.drag-end="[[tableHandleDragEnd]]"
         dnd.drop.rows.data-types='["application/ojlistviewitems+json"]' dnd.drop.rows.drop="[[tableHandleDrop]]"
-        edit-mode='rowEdit' edit-row='{{editRow}}' on-oj-before-row-edit='[[beforeRowEditListener]]'
-        on-oj-before-row-edit-end='[[beforeRowEditEndListener]]' columns='[[columnArray]]'>
-
-        <template slot="idTemplate" data-oj-as="cell">
-          <oj-bind-text value="[[numberConverter.format(cell.data)]]"></oj-bind-text>
-        </template>
-
-        <template slot="nameTemplate" data-oj-as="cell">
-          <oj-bind-if test='[[cell.mode=="navigation"]]'>
-            <oj-bind-text value="[[cell.data]]"></oj-bind-text>
-          </oj-bind-if>
-
-          <oj-bind-if test='[[cell.mode=="edit"]]'>
-            <oj-input-text id="it1" value="{{rowData.name}}"></oj-input-text>
-
-          </oj-bind-if>
-        </template>
-
-        <template slot="typeTemplate" data-oj-as="cell">
-          <oj-bind-if test='[[cell.mode=="navigation"]]'>
-            <oj-bind-text value="[[cell.data]]"></oj-bind-text>
-          </oj-bind-if>
-
-          <oj-bind-if test='[[cell.mode=="edit"]]'>
-            <oj-input-text id="it2" value="{{rowData.type}}"></oj-input-text>
-          </oj-bind-if>
-        </template>
-
-        <template slot="priorityTemplate" data-oj-as="cell">
-          <oj-bind-if test='[[cell.mode=="navigation"]]'>
-            <oj-bind-text value="[[cell.data]]"></oj-bind-text>
-          </oj-bind-if>
-
-          <oj-bind-if test='[[cell.mode=="edit"]]'>
-            <oj-select-one id="so1" aria-label="type" value='{{rowData.priority}}'>
-              <oj-option value="High">High</oj-option>
-              <oj-option value="Medium">Medium</oj-option>
-              <oj-option value="Low">Low</oj-option>
-            </oj-select-one>
-          </oj-bind-if>
-        </template>
-
-        <template slot="actionTemplate" data-oj-as="cell">
-          <oj-bind-if test='[[cell.mode=="navigation"]]'>
-            <oj-button on-oj-action="[[handleUpdate]]" style="width:5em;margin-bottom: 0px;"><span>Edit</span>
-            </oj-button>
-          </oj-bind-if>
-
-          <oj-bind-if test='[[cell.mode=="edit"]]'>
-            <oj-button on-oj-action="[[handleDone]]" style="width:5em;margin-bottom: 0px;"><span>Save</span></oj-button>
-          </oj-bind-if>
-        </template>
-
+        style="max-height: 700px;">
       </oj-table>
     </fieldset>
   </div>
-  <div style="float:left;margin-left:20px">
+  <div style="float:left;margin-left:20px;">
     <fieldset style="border:1px #b0b0b0 solid;padding:10px">
       <legend style="border:1px #b0b0b0 solid;margin-left: 1em;padding:0.2em 0.8em">Your Skills</legend>
 
-      <oj-list-view id="listview" aria-label="list with static data" style="display: inline-block;width:350px"
+      <oj-list-view id="listview" aria-label="list with static data" style="min-width:400px;width:100%; max-height: 700px;"
         data="[[listviewDataProvider]]" selection-mode="multiple" selection="{{listviewSelection}}"
         dnd.drag.items.data-types='["application/ojlistviewitems+json"]'
         dnd.drag.items.drag-end="[[listviewHandleDragEnd]]" dnd.drop.items.data-types='["application/ojtablerows+json"]'
         dnd.drop.items.drop="[[listviewHandleDrop]]">
         <template slot="itemTemplate" data-oj-as="item">
-          <div>
             <!-- <span class="avatar" data-bind="style: {backgroundImage: 'url('+item.data.url+')'}"></span> -->
-            <div class="container">
-              <div>
-                <span>
-                  <oj-bind-text value="[[item.data.name]]"></oj-bind-text>
-                </span>
-              </div>
-              <div>
-                <oj-select-single value="proficient" data="[[proficiencyOptions]]">
+          <div class="oj-flex oj-sm-align-items-center">
+            <div class="oj-flex-item" style="padding-right: 10px;">
+              <span>
+                <oj-bind-text value="[[item.data.name]]"></oj-bind-text>
+              </span>
+            </div>
+            <div class="oj-flex-item">
+              <div class="oj-flex oj-sm-justify-content-flex-end">
+                <oj-select-single value="proficient" data="[[proficiencyOptions]]" style="width:150px">
                 </oj-select-single>
               </div>
-              <!-- <div>
-                              <span class="oj-text-xs oj-text-secondary-color"><oj-bind-text value="[[item.data.job]]"></oj-bind-text></span>
-                          </div> -->
             </div>
+            <!-- <div>
+                            <span class="oj-text-xs oj-text-secondary-color"><oj-bind-text value="[[item.data.job]]"></oj-bind-text></span>
+                        </div> -->
           </div>
         </template>
       </oj-list-view>

@@ -4,41 +4,43 @@ function (oj) {
   var SkillFactory = {
 
       skillUri: 'data/skills.json',
+    //   skillUri: 'https://private-532dfa-skillstracker.apiary-mock.com/skills-tracker/v1/skills/',
       skillsInUseUri: 'data/skillsInUse.json',
+      skillByIdUri: 'data/skill.json',
       
       createSkillModel: function () {
 
           var Skill = oj.Model.extend({
-              urlRoot: this.skillUri, 
-              parse: function(response) {
+              urlRoot: this.skillByIdUri, 
+            //   parse: function(response) {
 
-                var iPaas = "N";
-                var modernApps = "N";
-                var devOps = "N";
+            //     var iPaas = "N";
+            //     var modernApps = "N";
+            //     var devOps = "N";
 
-                if (response.stream.indexOf("iPaas") >= 0) {
-                    iPaas = "Y";    
-                }
+            //     // if (response.stream.indexOf("iPaas") >= 0) {
+            //     //     iPaas = "Y";    
+            //     // }
 
-                if (response.stream.indexOf("Modern Apps") >= 0) {
-                    modernApps = "Y";   
-                }
+            //     // if (response.stream.indexOf("Modern Apps") >= 0) {
+            //     //     modernApps = "Y";   
+            //     // }
 
-                if (response.stream.indexOf("DevOps") >= 0) {
-                    devOps = "Y";   
-                }
+            //     // if (response.stream.indexOf("DevOps") >= 0) {
+            //     //     devOps = "Y";   
+            //     // }
 
-                return {
-                    "id": response.id,
-                    "name": response.name,
-                    "type": response.type,
-                    "iPaas": iPaas,
-                    "ModernApps": modernApps,
-                    "DevOps": devOps,
-                    "priority": response.priority
-                };
+            //     return {
+            //         // "id": response.id,
+            //         // "name": response.name,
+            //         // "type": response.type,
+            //         // "iPaas": iPaas,
+            //         // "ModernApps": modernApps,
+            //         // "DevOps": devOps,
+            //         // "priority": response.priority
+            //     };
 
-              },
+            //   },
               idAttribute: "id"
           });
 

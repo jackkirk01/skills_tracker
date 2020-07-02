@@ -1,0 +1,15 @@
+
+    {
+      "userId":"1",
+      "firstName":"Alex",
+      "surname":"Aidoo-Micah",
+      "skills":[
+         {
+            "skillId":"1",
+            "name":"Java SE",
+            "type":"Base Language",
+            "priority":"High",
+            "proficiency":"INTRODUCTORY"
+         }
+      ]
+   }

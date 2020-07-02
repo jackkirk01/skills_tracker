@@ -3,8 +3,105 @@
  The Universal Permissive License (UPL), Version 1.0
  -->
 <div class="oj-hybrid-padding">
-  <h1>Skills In Use</h1>
-  <div id="pictoContainer">
+  <div class="oj-flex">
+    <div id="percentage" class="oj-flex-item oj-sm-margin-1x" style="width:30%; border: 1px solid lightgray; border-left:5px solid rgb(237, 102, 71)">
+      <div class="oj-sm-padding-2x">
+        <oj-label id="indicatorThreshold">
+          Updated skills in the last 6 months
+        </oj-label>
+        <div class="oj-sm-margin-1x">
+          <h1 style="display:inline"><oj-bind-text value=92></oj-bind-text>%</h1>
+          <p style="display:inline">of users</p>
+        </div>
+      </div>
+    </div>
+    <div id="progressBar" class="oj-flex-item oj-panel oj-sm-margin-1x" style="width:30%; border: 1px solid lightgray; border-left:5px solid rgb(104, 193, 130)">
+      <oj-label id="indicatorThreshold">
+        High priority skills
+      </oj-label>
+      <div class="oj-flex oj-sm-align-items-center oj-sm-margin-2x">
+        <div class="oj-flex-item">
+          <oj-label id="gaugeLabel">Percentage of users with atleast one high priority skill:</oj-label>
+          <oj-status-meter-gauge 
+            class="horizontal-status-meter-sample"
+            labelled-by="gaugeLabel"
+            metric-label="[[customConverter]]"
+            tooltip.renderer="[[getTooltip]]"
+            min="0" max="100" value="[[highPrioritySkillPercentage]]"
+            thresholds="[[thresholdValues]]"
+            plot-area.rendered="on"
+            style="width:100%"
+            readonly>
+          </oj-status-meter-gauge>
+        </div>
+      </div>
+    </div>
+    <div id="totals" class="oj-flex-item oj-panel oj-sm-margin-1x" style="width:30%; border: 1px solid lightgray; border-left:5px solid rgb(35, 123, 177)">
+      <oj-label id="indicatorThreshold">
+        Totals
+      </oj-label>
+      <div class="oj-flex">
+        <div class="oj-flex-item oj-sm-margin-1x">
+          <h1 style="display:inline"><oj-bind-text value=[[totalUsers]]></oj-bind-text></h1>
+          <p style="display:inline">Total users</p>
+        </div>
+        <div class="oj-flex-item oj-sm-margin-1x">
+          <h1 style="display:inline"><oj-bind-text value=[[totalSkills]]></oj-bind-text></h1>
+          <p style="display:inline">Skills added</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="oj-flex" style="margin-bottom: 15px;">
+    <div class="oj-sm-12 oj-md-4 oj-flex-item">
+      <div id="donut" class="oj-panel oj-sm-margin-1x" style="height:100%">
+        <oj-label id="indicatorThreshold">
+          Proficiency breakdown by skill
+        </oj-label>
+        <oj-select-single id="select1"
+        style="max-width:20em"
+        data="[[self.skillsDP]]">
+      </oj-select-single>
+      <oj-chart id="pieChart"
+          type="pie"
+          data="[[donutDataProvider]]"
+          style-defaults.pie-inner-radius="0.7"
+          animation-on-data-change="auto"
+          pie-center.label="Java SE">
+          <template slot='itemTemplate' data-oj-as='item'>
+            <oj-chart-item 
+            value='[[item.data.total]]'
+            group-id='[[ [item.data.group] ]]'
+            series-id='[[item.data.proficiency]]'> 
+          </oj-chart-item>
+        </template>
+      </oj-chart>
+    </div>
+    </div>
+    <div class="oj-sm-12 oj-md-8 oj-flex-item">
+      <div id="tagCloud" class="oj-flex-item oj-panel oj-sm-margin-1x" style="height:100%">
+        <oj-label id="indicatorThreshold">
+          Top 10 most used skills
+        </oj-label>
+        <oj-tag-cloud 
+          id='tagcloud1' 
+          layout='cloud' 
+          data='[[tagCloudDataProvider]]'>  
+          <template slot='itemTemplate' data-oj-as='item'>
+            <oj-tag-cloud-item 
+              label='[[item.data.name]]'
+              value='[[item.data.total]]'
+              short-desc='[[item.data.name + ": " + item.data.total + "% of respondents"]]'>
+            </oj-tag-cloud-item>
+          </template>
+        </oj-tag-cloud>
+      </div>
+    </div>
+  </div>
+  <div id="pictoContainer" class="oj-panel oj-sm-margin-1x" style="max-height: 700px; overflow-y: auto;">
+    <oj-label id="indicatorThreshold">
+      Skills usage overview
+    </oj-label>
     <div data-bind="if: apiLoaded" class="oj-flex">
       <oj-bind-for-each data="[[masterSkillArray]]">
         <template>

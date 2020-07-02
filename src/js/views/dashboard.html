@@ -5,32 +5,16 @@
 <div class="oj-hybrid-padding">
   <h1>Dashboard Content Area</h1>
   <div>
+    <oj-label id="label" class="oj-label-inline" for="filter">Filter:</oj-label>
+    <oj-input-text id="filter" placeholder="Type to filter" on-raw-value-changed="[[handleValueChanged]]"
+      value="{{filter}}"></oj-input-text>
+    <oj-button id="clearButton" on-oj-action='[[clearClick]]' display='icons' chroming='half'>
+      <span slot='startIcon' class='oj-fwk-icon oj-fwk-icon-cross03'></span>
+      Clear
+    </oj-button>
     <oj-table id="table" aria-label="Departments Table" data='[[dataprovider]]' edit-mode='rowEdit'
       edit-row='{{editRow}}' on-oj-before-row-edit='[[beforeRowEditListener]]'
-      on-oj-before-row-edit-end='[[beforeRowEditEndListener]]' columns-default.sortable='disabled' columns='[{"field": "id",
-               "headerText": "ReadOnly",
-               "headerStyle": "min-width: 8em; max-width: 8em; width: 8em",
-               "headerClassName": "oj-helper-text-align-end",
-               "style": "min-width: 8em; max-width: 8em; width: 8em",
-               "className": "oj-helper-text-align-end oj-read-only",
-               "template": "idTemplate"},
-              {"field": "name",
-               "headerText": "InputText",
-               "headerStyle": "min-width: 15em; max-width: 15em; width: 15em",
-               "style": "min-width: 15em; max-width: 15em; width: 15em",
-               "template": "nameTemplate"},
-              {"field":"type",
-               "headerText": "InputText Number",
-               "headerStyle": "min-width: 12em; max-width: 12em; width: 12em",
-               "headerClassName": "oj-helper-text-align-end",
-               "style": "min-width: 12em; max-width: 12em; width: 12em",
-               "className": "oj-helper-text-align-end",
-               "template": "typeTemplate"},
-              {"field":"priority",
-               "headerText": "Select",
-               "headerStyle": "min-width: 10em; max-width: 10em; width: 10em",
-               "style": "min-width: 10em; max-width: 10em; width: 10em",
-               "template": "priorityTemplate"}]'>
+      on-oj-before-row-edit-end='[[beforeRowEditEndListener]]' columns-default.sortable='disabled' columns='[[columnArray]]'>
 
       <template slot="idTemplate" data-oj-as="cell">
         <oj-bind-text value="[[numberConverter.format(cell.data)]]"></oj-bind-text>
@@ -71,48 +55,6 @@
             <oj-option value="Medium">Medium</oj-option>
             <oj-option value="Low">Low</oj-option>
           </oj-select-one>
-        </oj-bind-if>
-      </template>
-
-      <template slot="currencyTemplate" data-oj-as="cell">
-        <oj-bind-if test='[[cell.mode=="navigation"]]'>
-          <oj-bind-text value="[[cell.data]]"></oj-bind-text>
-        </oj-bind-if>
-
-        <oj-bind-if test='[[cell.mode=="edit"]]'>
-          <oj-combobox-one id="co1" aria-label="currency" value="{{rowData.Currency}}">
-            <oj-option value="USD">USD</oj-option>
-            <oj-option value="JPY">JPY</oj-option>
-            <oj-option value="EUR">EUR</oj-option>
-          </oj-combobox-one>
-        </oj-bind-if>
-      </template>
-
-      <template slot="dateTemplate" data-oj-as="cell">
-        <oj-bind-if test='[[cell.mode=="navigation"]]'>
-          <oj-bind-text value="[[dateConverter.format(cell.data)]]"></oj-bind-text>
-        </oj-bind-if>
-
-        <oj-bind-if test='[[cell.mode=="edit"]]'>
-          <oj-input-date id="id1" value="{{rowData.Date}}"> </oj-input-date>
-        </oj-bind-if>
-      </template>
-
-      <template slot="primaryTemplate" data-oj-as="cell">
-        <oj-bind-if test='[[cell.mode=="navigation"]]'>
-          <div oj-sm-justify-content-center>
-            <oj-checkboxset id="cs1" value="{{cell.data}}" class="oj-choice-direction-row">
-              <oj-option value="checked"></oj-option>
-            </oj-checkboxset>
-          </div>
-        </oj-bind-if>
-
-        <oj-bind-if test='[[cell.mode=="edit"]]'>
-          <div oj-sm-justify-content-center>
-            <oj-checkboxset id="cs2" value="{{rowData.Primary}}" class="oj-choice-direction-row">
-              <oj-option value="checked"></oj-option>
-            </oj-checkboxset>
-          </div>
         </oj-bind-if>
       </template>
 

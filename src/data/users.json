@@ -1,301 +1,636 @@
 {
-  "users": [
-    {
-      "id": "1",
-      "firstName": "Alex",
-      "lastName": "Aidoo-Micah",
-      "skills": [
-        "Java SE",
-        "Java EE"
-      ],
-      "stream": "Modern Apps"
-    },
-    {
-      "id": "2",
-      "firstName": "Mohamed",
-      "lastName": "Bara",
-      "skills": [
-        "API Management",
-        "Oracle JET"
-      ],
-      "stream": "iPaas"
-    },
-    {
-      "id": "3",
-      "firstName": "Guy",
-      "lastName": "Barnes",
-      "skills": [
-        "Microservices",
-        "Blockchain",
-        "Java SE"
-      ],
-      "stream": "Modern Apps"
-    },
-    {
-      "id": "4",
-      "firstName": "Andy",
-      "lastName": "Bell",
-      "skills": [
-        "Kafka",
-        "Oracle Robotic Process Automation"
-      ],
-      "stream": "iPaas"
-    },
-    {
-      "id": "5",
-      "firstName": "Ben",
-      "lastName": "Burbage",
-      "skills": [
-        "Java EE",
-        "Oracle Integration Cloud Service"
-      ],
-      "stream": "iPaas"
-    },
-    {
-      "id": "6",
-      "firstName": "David",
-      "lastName": "Carter",
-      "skills": [
-        "Java EE",
-        "Oracle Integration Cloud Service"
-      ],
-      "stream": "iPaas"
-    },
-    {
-      "id": "7",
-      "firstName": "Vickie",
-      "lastName": "Challis",
-      "skills": [
-        "Java EE",
-        "Oracle Integration Cloud Service"
-      ],
-      "stream": "iPaas"
-    },
-    {
-      "id": "8",
-      "firstName": "Nicola",
-      "lastName": "D'Orazio",
-      "skills": [
-        "Java EE",
-        "Oracle Integration Cloud Service"
-      ],
-      "stream": "iPaas"
-    },
-    {
-      "id": "9",
-      "firstName": "Yury",
-      "lastName": "Fjodorovs",
-      "skills": [
-        "Java EE",
-        "Oracle Integration Cloud Service"
-      ],
-      "stream": "iPaas"
-    },
-    {
-      "id": "10",
-      "firstName": "Jonathan",
-      "lastName": "Guppy",
-      "skills": [
-        "Java EE",
-        "Oracle Integration Cloud Service"
-      ],
-      "stream": "iPaas"
-    },
-    {
-      "id": "11",
-      "firstName": "Emma",
-      "lastName": "Halliday",
-      "skills": [
-        "Java SE",
-        "Java EE"
-      ],
-      "stream": "Modern Apps"
-    },
-    {
-      "id": "12",
-      "firstName": "Chris",
-      "lastName": "Hollies",
-      "skills": [
-        "API Management",
-        "Oracle JET"
-      ],
-      "stream": "iPaas"
-    },
-    {
-      "id": "13",
-      "firstName": "Jack",
-      "lastName": "Kirk",
-      "skills": [
-        "Microservices",
-        "Blockchain",
-        "Java SE"
-      ],
-      "stream": "Modern Apps"
-    },
-    {
-      "id": "14",
-      "firstName": "Richard",
-      "lastName": "Lanchbury",
-      "skills": [
-        "Kafka",
-        "Oracle Robotic Process Automation"
-      ],
-      "stream": "iPaas"
-    },
-    {
-      "id": "15",
-      "firstName": "Romesh",
-      "lastName": "Lokuge",
-      "skills": [
-        "Java EE",
-        "Oracle Integration Cloud Service"
-      ],
-      "stream": "iPaas"
-    },
-    {
-      "id": "16",
-      "firstName": "Sam",
-      "lastName": "Longton",
-      "skills": [
-        "Java EE",
-        "Oracle Integration Cloud Service"
-      ],
-      "stream": "iPaas"
-    },
-    {
-      "id": "17",
-      "firstName": "Adrian",
-      "lastName": "Lowe",
-      "skills": [
-        "Java EE",
-        "Oracle Integration Cloud Service"
-      ],
-      "stream": "iPaas"
-    },
-    {
-      "id": "18",
-      "firstName": "Ramesh",
-      "lastName": "Madhavan",
-      "skills": [
-        "Java EE",
-        "Oracle Integration Cloud Service"
-      ],
-      "stream": "iPaas"
-    },
-    {
-      "id": "19",
-      "firstName": "Paul",
-      "lastName": "Martin",
-      "skills": [
-        "Java EE",
-        "Oracle Integration Cloud Service"
-      ],
-      "stream": "iPaas"
-    },
-    {
-      "id": "20",
-      "firstName": "Bipin",
-      "lastName": "Mistry",
-      "skills": [
-        "Java EE",
-        "Oracle Integration Cloud Service"
-      ],
-      "stream": "iPaas"
-    },
-    {
-      "id": "21",
-      "firstName": "James",
-      "lastName": "Neate",
-      "skills": [
-        "Java SE",
-        "Java EE"
-      ],
-      "stream": "Modern Apps"
-    },
-    {
-      "id": "22",
-      "firstName": "Ramnik",
-      "lastName": "Pattni",
-      "skills": [
-        "API Management",
-        "Oracle JET"
-      ],
-      "stream": "iPaas"
-    },
-    {
-      "id": "23",
-      "firstName": "Sander",
-      "lastName": "Rensen",
-      "skills": [
-        "Microservices",
-        "Blockchain",
-        "Java SE"
-      ],
-      "stream": "Modern Apps"
-    },
-    {
-      "id": "24",
-      "firstName": "Luis",
-      "lastName": "Weir",
-      "skills": [
-        "Kafka",
-        "Oracle Robotic Process Automation"
-      ],
-      "stream": "iPaas"
-    },
-    {
-      "id": "25",
-      "firstName": "Phil",
-      "lastName": "Wilkins",
-      "skills": [
-        "Java EE",
-        "Oracle Integration Cloud Service"
-      ],
-      "stream": "iPaas"
-    },
-    {
-      "id": "26",
-      "firstName": "Alex",
-      "lastName": "Cooper",
-      "skills": [
-        "Java EE",
-        "Oracle Integration Cloud Service"
-      ],
-      "stream": "iPaas"
-    },
-    {
-      "id": "27",
-      "firstName": "Arjun",
-      "lastName": "Deo",
-      "skills": [
-        "Java EE",
-        "Oracle Integration Cloud Service"
-      ],
-      "stream": "iPaas"
-    },
-    {
-      "id": "28",
-      "firstName": "Amy",
-      "lastName": "Grange",
-      "skills": [
-        "Java EE",
-        "Oracle Integration Cloud Service"
-      ],
-      "stream": "iPaas"
-    },
-    {
-      "id": "29",
-      "firstName": "New",
-      "lastName": "Person 1",
-      "skills": [],
-      "stream": ""
-    },
-    {
-      "id": "30",
-      "firstName": "New",
-      "lastName": "Person 2",
-      "skills": [],
-      "stream": ""
-    }
+  "users":[
+     {
+        "userId":"1",
+        "firstName":"Alex",
+        "surname":"Aidoo-Micah",
+        "skills":[
+           {
+              "skillId":"1",
+              "name":"Java SE",
+              "type":"Base Language",
+              "priority":"High",
+              "proficiency":"INTRODUCTORY"
+           },
+           {
+            "skillId":"3",
+            "name":"API Management",
+            "type":"Product",
+            "priority":"High",
+            "proficiency":"EXPERT"
+         },
+         {
+            "skillId":"10",
+            "name":"Oracle JET",
+            "type":"JavaScript Toolkit",
+            "priority":"High",
+            "proficiency":"EXPERIENCED]"
+         }
+        ]
+     },
+     {
+        "userId":"2",
+        "firstName":"Mohamed",
+        "surname":"Bara",
+        "skills":[
+           {
+              "skillId":"3",
+              "name":"API Management",
+              "type":"Product",
+              "priority":"High",
+              "proficiency":"EXPERT"
+           },
+           {
+              "skillId":"10",
+              "name":"Oracle JET",
+              "type":"JavaScript Toolkit",
+              "priority":"High",
+              "proficiency":"EXPERIENCED]"
+           }
+        ]
+     },
+     {
+        "userId":"3",
+        "firstName":"Guy",
+        "surname":"Barnes",
+        "skills":[
+           {
+              "skillId":"9",
+              "name":"Microservices",
+              "type":"Web Services",
+              "priority":"High",
+              "proficiency":"PROGRESSING"
+           },
+           {
+              "skillId":"12",
+              "name":"Blockchain",
+              "type":"Concept",
+              "priority":"Low",
+              "proficiency":"INTRODUCTORY"
+           },
+           {
+              "skillId":"1",
+              "name":"Java SE",
+              "type":"Base Language",
+              "priority":"High",
+              "proficiency":"EXPERIENCED"
+           }
+        ]
+     },
+     {
+        "userId":"4",
+        "firstName":"Andy",
+        "surname":"Bell",
+        "skills":[
+           {
+              "skillId":"7",
+              "name":"Kafka",
+              "type":"Product",
+              "priority":"High",
+              "proficiency":"INTRODUCTORY"
+           },
+           {
+              "skillId":"6",
+              "name":"Oracle Robotic Process Automation",
+              "type":"Product",
+              "priority":"High",
+              "proficiency":"PROFICIENT"
+           }
+        ]
+     },
+     {
+        "userId":"5",
+        "firstName":"Ben",
+        "surname":"Burbage",
+        "skills":[
+           {
+              "skillId":"2",
+              "name":"Java EE",
+              "type":"Web Language",
+              "priority":"High",
+              "proficiency":"EXPERT"
+           },
+           {
+              "skillId":"5",
+              "name":"Oracle Integration Cloud Service",
+              "type":"Product",
+              "priority":"High",
+              "proficiency":"INTRODUCTORY"
+           }
+        ]
+     },
+     {
+        "userId":"6",
+        "firstName":"David",
+        "surname":"Carter",
+        "skills":[
+           {
+              "skillId":"2",
+              "name":"Java EE",
+              "type":"Web Language",
+              "priority":"High",
+              "proficiency":"EXPERT"
+           },
+           {
+              "skillId":"5",
+              "name":"Oracle Integration Cloud Service",
+              "type":"Product",
+              "priority":"High",
+              "proficiency":"INTRODUCTORY"
+           }
+        ]
+     },
+     {
+        "userId":"7",
+        "firstName":"Vickie",
+        "surname":"Challis",
+        "skills":[
+           {
+              "skillId":"2",
+              "name":"Java EE",
+              "type":"Web Language",
+              "priority":"High",
+              "proficiency":"PROFICIENT"
+           },
+           {
+              "skillId":"5",
+              "name":"Oracle Integration Cloud Service",
+              "type":"Product",
+              "priority":"High",
+              "proficiency":"EXPERT"
+           }
+        ]
+     },
+     {
+        "userId":"8",
+        "firstName":"Nicola",
+        "surname":"D'Orazio",
+        "skills":[
+           {
+              "skillId":"2",
+              "name":"Java EE",
+              "type":"Web Language",
+              "priority":"High",
+              "proficiency":"PROFICIENT"
+           },
+           {
+              "skillId":"5",
+              "name":"Oracle Integration Cloud Service",
+              "type":"Product",
+              "priority":"High",
+              "proficiency":"INTRODUCTORY"
+           }
+        ]
+     },
+     {
+        "userId":"9",
+        "firstName":"Yury",
+        "surname":"Fjodorovs",
+        "skills":[
+           {
+              "skillId":"2",
+              "name":"Java EE",
+              "type":"Web Language",
+              "priority":"High",
+              "proficiency":"PROFICIENT"
+           },
+           {
+              "skillId":"5",
+              "name":"Oracle Integration Cloud Service",
+              "type":"Product",
+              "priority":"High",
+              "proficiency":"INTRODUCTORY"
+           }
+        ]
+     },
+     {
+        "userId":"10",
+        "firstName":"Jonathan",
+        "surname":"Guppy",
+        "skills":[
+           {
+              "skillId":"2",
+              "name":"Java EE",
+              "type":"Web Language",
+              "priority":"High",
+              "proficiency":"PROGRESSING"
+           },
+           {
+              "skillId":"5",
+              "name":"Oracle Integration Cloud Service",
+              "type":"Product",
+              "priority":"High",
+              "proficiency":"PROGRESSING"
+           }
+        ]
+     },
+     {
+        "userId":"11",
+        "firstName":"Emma",
+        "surname":"Halliday",
+        "skills":[
+           {
+              "skillId":"1",
+              "name":"Java SE",
+              "type":"Base Language",
+              "priority":"High",
+              "proficiency":"EXPERIENCED"
+           },
+           {
+              "skillId":"2",
+              "name":"Java EE",
+              "type":"Web Language",
+              "priority":"High",
+              "proficiency":"EXPERIENCED"
+           }
+        ]
+     },
+     {
+        "userId":"12",
+        "firstName":"Chris",
+        "surname":"Hollies",
+        "skills":[
+           {
+              "skillId":"3",
+              "name":"API Management",
+              "type":"Product",
+              "priority":"High",
+              "proficiency":"INTRODUCTORY"
+           },
+           {
+              "skillId":"10",
+              "name":"Oracle JET",
+              "type":"JavaScript Toolkit",
+              "priority":"High",
+              "proficiency":"EXPERT"
+           }
+        ]
+     },
+     {
+        "userId":"13",
+        "firstName":"Jack",
+        "surname":"Kirk",
+        "skills":[
+           {
+              "skillId":"9",
+              "name":"Microservices",
+              "type":"Web Services",
+              "priority":"High",
+              "proficiency":"PROGRESSING"
+           },
+           {
+              "skillId":"12",
+              "name":"Blockchain",
+              "type":"Concept",
+              "priority":"Low",
+              "proficiency":"PROFICIENT"
+           },
+           {
+              "skillId":"1",
+              "name":"Java SE",
+              "type":"Base Language",
+              "priority":"High",
+              "proficiency":"EXPERT"
+           }
+        ]
+     },
+     {
+        "userId":"14",
+        "firstName":"Richard",
+        "surname":"Lanchbury",
+        "skills":[
+           {
+              "skillId":"7",
+              "name":"Kafka",
+              "type":"Product",
+              "priority":"High",
+              "proficiency":"INTRODUCTORY"
+           },
+           {
+              "skillId":"6",
+              "name":"Oracle Robotic Process Automation",
+              "type":"Product",
+              "priority":"High",
+              "proficiency":"EXPERIENCED"
+           }
+        ]
+     },
+     {
+        "userId":"15",
+        "firstName":"Romesh",
+        "surname":"Lokuge",
+        "skills":[
+           {
+              "skillId":"2",
+              "name":"Java EE",
+              "type":"Web Language",
+              "priority":"High",
+              "proficiency":"INTRODUCTORY"
+           },
+           {
+              "skillId":"5",
+              "name":"Oracle Integration Cloud Service",
+              "type":"Product",
+              "priority":"High",
+              "proficiency":"EXPERIENCED"
+           }
+        ]
+     },
+     {
+        "userId":"16",
+        "firstName":"Sam",
+        "surname":"Longton",
+        "skills":[
+           {
+              "skillId":"2",
+              "name":"Java EE",
+              "type":"Web Language",
+              "priority":"High",
+              "proficiency":"EXPERIENCED"
+           },
+           {
+              "skillId":"5",
+              "name":"Oracle Integration Cloud Service",
+              "type":"Product",
+              "priority":"High",
+              "proficiency":"PROGRESSING"
+           }
+        ]
+     },
+     {
+        "userId":"17",
+        "firstName":"Adrian",
+        "surname":"Lowe",
+        "skills":[
+           {
+              "skillId":"2",
+              "name":"Java EE",
+              "type":"Web Language",
+              "priority":"High",
+              "proficiency":"EXPERIENCED"
+           },
+           {
+              "skillId":"5",
+              "name":"Oracle Integration Cloud Service",
+              "type":"Product",
+              "priority":"High",
+              "proficiency":"INTRODUCTORY"
+           }
+        ]
+     },
+     {
+        "userId":"18",
+        "firstName":"Ramesh",
+        "surname":"Madhavan",
+        "skills":[
+           {
+              "skillId":"2",
+              "name":"Java EE",
+              "type":"Web Language",
+              "priority":"High",
+              "proficiency":"EXPERT"
+           },
+           {
+              "skillId":"5",
+              "name":"Oracle Integration Cloud Service",
+              "type":"Product",
+              "priority":"High",
+              "proficiency":"EXPERT"
+           }
+        ]
+     },
+     {
+        "userId":"19",
+        "firstName":"Paul",
+        "surname":"Martin",
+        "skills":[
+           {
+              "skillId":"2",
+              "name":"Java EE",
+              "type":"Web Language",
+              "priority":"High",
+              "proficiency":"PROGRESSING"
+           },
+           {
+              "skillId":"5",
+              "name":"Oracle Integration Cloud Service",
+              "type":"Product",
+              "priority":"High",
+              "proficiency":"EXPERT"
+           }
+        ]
+     },
+     {
+        "userId":"20",
+        "firstName":"Bipin",
+        "surname":"Mistry",
+        "skills":[
+           {
+              "skillId":"2",
+              "name":"Java EE",
+              "type":"Web Language",
+              "priority":"High",
+              "proficiency":"EXPERIENCED"
+           },
+           {
+              "skillId":"5",
+              "name":"Oracle Integration Cloud Service",
+              "type":"Product",
+              "priority":"High",
+              "proficiency":"EXPERT"
+           }
+        ]
+     },
+     {
+        "userId":"21",
+        "firstName":"James",
+        "surname":"Neate",
+        "skills":[
+           {
+              "skillId":"1",
+              "name":"Java SE",
+              "type":"Base Language",
+              "priority":"High",
+              "proficiency":"INTRODUCTORY"
+           },
+           {
+              "skillId":"2",
+              "name":"Java EE",
+              "type":"Web Language",
+              "priority":"High",
+              "proficiency":"EXPERIENCED"
+           }
+        ]
+     },
+     {
+        "userId":"22",
+        "firstName":"Ramnik",
+        "surname":"Pattni",
+        "skills":[
+           {
+              "skillId":"3",
+              "name":"API Management",
+              "type":"Product",
+              "priority":"High",
+              "proficiency":"PROGRESSING"
+           },
+           {
+              "skillId":"10",
+              "name":"Oracle JET",
+              "type":"JavaScript Toolkit",
+              "priority":"High",
+              "proficiency":"PROFICIENT"
+           }
+        ]
+     },
+     {
+        "userId":"23",
+        "firstName":"Sander",
+        "surname":"Rensen",
+        "skills":[
+           {
+              "skillId":"9",
+              "name":"Microservices",
+              "type":"Web Services",
+              "priority":"High",
+              "proficiency":"PROGRESSING"
+           },
+           {
+              "skillId":"12",
+              "name":"Blockchain",
+              "type":"Concept",
+              "priority":"Low",
+              "proficiency":"EXPERT"
+           },
+           {
+              "skillId":"1",
+              "name":"Java SE",
+              "type":"Base Language",
+              "priority":"High",
+              "proficiency":"EXPERT"
+           }
+        ]
+     },
+     {
+        "userId":"24",
+        "firstName":"Luis",
+        "surname":"Weir",
+        "skills":[
+           {
+              "skillId":"7",
+              "name":"Kafka",
+              "type":"Product",
+              "priority":"High",
+              "proficiency":"INTRODUCTORY"
+           },
+           {
+              "skillId":"6",
+              "name":"Oracle Robotic Process Automation",
+              "type":"Product",
+              "priority":"High",
+              "proficiency":"EXPERT"
+           }
+        ]
+     },
+     {
+        "userId":"25",
+        "firstName":"Phil",
+        "surname":"Wilkins",
+        "skills":[
+           {
+              "skillId":"2",
+              "name":"Java EE",
+              "type":"Web Language",
+              "priority":"High",
+              "proficiency":"EXPERT"
+           },
+           {
+              "skillId":"5",
+              "name":"Oracle Integration Cloud Service",
+              "type":"Product",
+              "priority":"High",
+              "proficiency":"EXPERIENCED"
+           }
+        ]
+     },
+     {
+        "userId":"26",
+        "firstName":"Alex",
+        "surname":"Cooper",
+        "skills":[
+           {
+              "skillId":"2",
+              "name":"Java EE",
+              "type":"Web Language",
+              "priority":"High",
+              "proficiency":"PROGRESSING"
+           },
+           {
+              "skillId":"5",
+              "name":"Oracle Integration Cloud Service",
+              "type":"Product",
+              "priority":"High",
+              "proficiency":"INTRODUCTORY"
+           }
+        ]
+     },
+     {
+        "userId":"27",
+        "firstName":"Arjun",
+        "surname":"Deo",
+        "skills":[
+           {
+              "skillId":"2",
+              "name":"Java EE",
+              "type":"Web Language",
+              "priority":"High",
+              "proficiency":"EXPERIENCED"
+           },
+           {
+              "skillId":"5",
+              "name":"Oracle Integration Cloud Service",
+              "type":"Product",
+              "priority":"High",
+              "proficiency":"EXPERT"
+           }
+        ]
+     },
+     {
+        "userId":"28",
+        "firstName":"Amy",
+        "surname":"Grange",
+        "skills":[
+           {
+              "skillId":"2",
+              "name":"Java EE",
+              "type":"Web Language",
+              "priority":"High",
+              "proficiency":"PROGRESSING"
+           },
+           {
+              "skillId":"5",
+              "name":"Oracle Integration Cloud Service",
+              "type":"Product",
+              "priority":"High",
+              "proficiency":"INTRODUCTORY"
+           }
+        ]
+     },
+     {
+        "userId":"29",
+        "firstName":"New",
+        "surname":"Person 1",
+        "skills":[
+
+        ]
+     },
+     {
+        "userId":"30",
+        "firstName":"New",
+        "surname":"Person 2",
+        "skills":[
+
+        ]
+     }
   ]
 }

@@ -63,6 +63,8 @@ define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/
       {name: 'About', id: 'about',
        iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-info-icon-24'},
       {name: 'Dashboard', id: 'dashboard',
+       iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-info-icon-24'},
+      {name: 'Customer', id: 'customers',
        iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-info-icon-24'}
       ];
       self.navDataProvider = new ArrayDataProvider(navData, {keyAttributes: 'id'});
