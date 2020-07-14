@@ -56,18 +56,20 @@
     <div class="oj-sm-12 oj-md-4 oj-flex-item">
       <div id="donut" class="oj-panel oj-sm-margin-1x" style="height:100%">
         <oj-label id="indicatorThreshold">
-          Proficiency breakdown by skill
+          Skill breakdown by proficiency
         </oj-label>
         <oj-select-single id="select1"
-        style="max-width:20em"
-        data="[[self.skillsDP]]">
-      </oj-select-single>
+          style="max-width:20em"
+          on-value-changed="[[skillSelectorChanged]]"
+          data="[[skillsDP]]"
+          value="{{skillSelectorValue}}">
+        </oj-select-single>
       <oj-chart id="pieChart"
           type="pie"
           data="[[donutDataProvider]]"
           style-defaults.pie-inner-radius="0.7"
           animation-on-data-change="auto"
-          pie-center.label="Java SE">
+          pie-center.label="[[pieChartLabel]]">
           <template slot='itemTemplate' data-oj-as='item'>
             <oj-chart-item 
             value='[[item.data.total]]'
@@ -91,7 +93,7 @@
             <oj-tag-cloud-item 
               label='[[item.data.name]]'
               value='[[item.data.total]]'
-              short-desc='[[item.data.name + ": " + item.data.total + "% of respondents"]]'>
+              short-desc='[[item.data.name + ": " +item.data.total + " out of " + totalUsers() + " users"]]'>
             </oj-tag-cloud-item>
           </template>
         </oj-tag-cloud>
@@ -103,16 +105,75 @@
       Skills usage overview
     </oj-label>
     <div data-bind="if: apiLoaded" class="oj-flex">
-      <oj-bind-for-each data="[[masterSkillArray]]">
+      <div style="width:100%; text-align: center;">
+        <oj-label id="indicatorThreshold">
+          High Priority Skills
+        </oj-label>
+        <hr>
+      </div>
+      <oj-bind-for-each data="[[highPrioritySkills]]">
         <template>
           <div
-            class="oj-flex oj-flex-item oj-sm-flex-direction-column oj-sm-align-items-center oj-panel oj-sm-margin-2x">
+            class="oj-flex oj-flex-item oj-sm-flex-direction-column oj-sm-align-items-center oj-panel oj-sm-margin-2x" style="max-width: 320px;">
             <div class="oj-flex oj-sm-justify-content-center"
               style="width:100%;margin:10px;font-size:15px;font-weight:bold;">
               <span data-bind="text: $current.data.name"></span>
             </div>
             <oj-picto-chart data-bind="attr: {'id': $current.data.name}"
-              items="[[loadSkillData($current.data.skilledUsers)]]" tooltip.renderer="[[tooltipFunction]]"
+              items="[[loadSkillData($current.data)]]" tooltip.renderer="[[tooltipFunction]]"
+              style="width:100%;max-width:250px;min-height:130px;">
+            </oj-picto-chart>
+            <div class="oj-flex oj-sm-justify-content-center"
+              style="width:100%;margin:10px;background-color:#ececec;border-radius:5px;font-size:15px;font-weight:bold;">
+              <span data-bind="text: loadSkillPercent($current.data.skilledUsers)"></span>
+            </div>
+          </div>
+        </template>
+      </oj-bind-for-each>
+    </div>
+    <div data-bind="if: apiLoaded" class="oj-flex">
+      <div style="width:100%; text-align: center;">
+        <oj-label id="indicatorThreshold">
+          Medium Priority Skills
+        </oj-label>
+        <hr>
+      </div>
+      <oj-bind-for-each data="[[mediumPrioritySkills]]">
+        <template>
+          <div
+            class="oj-flex oj-flex-item oj-sm-flex-direction-column oj-sm-align-items-center oj-panel oj-sm-margin-2x" style="max-width: 300px;">
+            <div class="oj-flex oj-sm-justify-content-center"
+              style="width:100%;margin:10px;font-size:15px;font-weight:bold;">
+              <span data-bind="text: $current.data.name"></span>
+            </div>
+            <oj-picto-chart data-bind="attr: {'id': $current.data.name}"
+              items="[[loadSkillData($current.data)]]" tooltip.renderer="[[tooltipFunction]]"
+              style="width:100%;max-width:250px;min-height:130px;">
+            </oj-picto-chart>
+            <div class="oj-flex oj-sm-justify-content-center"
+              style="width:100%;margin:10px;background-color:#ececec;border-radius:5px;font-size:15px;font-weight:bold;">
+              <span data-bind="text: loadSkillPercent($current.data.skilledUsers)"></span>
+            </div>
+          </div>
+        </template>
+      </oj-bind-for-each>
+    </div>
+    <div data-bind="if: apiLoaded" class="oj-flex">
+      <div style="width:100%; text-align: center;">
+        <oj-label id="indicatorThreshold">
+          Low Priority Skills
+        </oj-label>
+        <hr>
+      </div>
+      <oj-bind-for-each data="[[lowPrioritySkills]]">
+        <template>
+          <div class="oj-flex oj-flex-item oj-sm-flex-direction-column oj-sm-align-items-center oj-panel oj-sm-margin-2x" style="max-width: 300px;">
+            <div class="oj-flex oj-sm-justify-content-center"
+              style="width:100%;margin:10px;font-size:15px;font-weight:bold;">
+              <span data-bind="text: $current.data.name"></span>
+            </div>
+            <oj-picto-chart data-bind="attr: {'id': $current.data.name}"
+              items="[[loadSkillData($current.data)]]" tooltip.renderer="[[tooltipFunction]]"
               style="width:100%;max-width:250px;min-height:130px;">
             </oj-picto-chart>
             <div class="oj-flex oj-sm-justify-content-center"

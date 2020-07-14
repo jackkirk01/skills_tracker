@@ -19,6 +19,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'factories/UserFactory', 'factories/
       self.userCollection = null;
       self.totalUsers = ko.observable(0);
       self.totalSkills = ko.observable();
+      self.tagCloudDataProvider = ko.observable();
       self.usersWithHighPrioritySkills = ko.observable(0);
       this.highPrioritySkillPercentage = ko.computed(function () {
         if(self.usersWithHighPrioritySkills() == 0 && self.totalUsers() == 0) {
@@ -29,11 +30,16 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'factories/UserFactory', 'factories/
       }, this);
       self.skillOptions = ko.observableArray();
       self.skillsDP = ko.observable();
+      self.skillSelectorValue = ko.observable(1);
       self.mostUsedSkills = ko.observableArray();
       self.chartData = ko.observableArray();
+      self.pieChartLabel = ko.observable();
 
       var skillArray = [];
       self.masterSkillArray = ko.observableArray();
+      self.highPrioritySkills;
+      self.mediumPrioritySkills;
+      self.lowPrioritySkills;
 
       this.customConverter = {style: {color:'white'}, position: 'center', rendered: 'on', converter: new NumberConverter.IntlNumberConverter({ style: 'percent', pattern: '#,##%' }) };
 
@@ -44,223 +50,76 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'factories/UserFactory', 'factories/
 
       self.skillModel = ko.observable();
 
-      self.skillModel(SkillFactory.createSkillModel());
+      self.skillSelectorChanged = function (event) {
 
-      self.skillModel().fetch({
-        success: function(model, response, options) {
+        self.pieChartLabel(self.skillOptions().find(skill => skill.value === event.detail.value).label);
+        
+        self.skillModel(SkillFactory.createSkillModel());
 
-          var introductoryCount = 0;
-          var progressingCount = 0;
-          var proficientCount = 0;
-          var experiencedCount = 0;
-          var expertCount = 0;
+        self.skillModel().fetch({
+          success: function(model, response, options) {
 
-          model.get("users").forEach(user => {
-    
-            switch(user.proficiency) {
-              case "INTRODUCTORY":
-                introductoryCount++
-                break;
-              case "PROGRESSING":
-                progressingCount++
-                break;
-              case "PROFICIENT":
-                proficientCount++
-                break;
-              case "EXPERIENCED":
-                experiencedCount++
-                break;
-              case "EXPERT":
-                expertCount++
-                break;
-            }
-          })
+            var introductoryCount = 0;
+            var progressingCount = 0;
+            var proficientCount = 0;
+            var experiencedCount = 0;
+            var expertCount = 0;
 
-          self.chartData([
-            {
-              proficiency:"introductory",
-              total:introductoryCount,
-              group:self.skillModel().get("name")
-            },
-            {
-              proficiency:"progressing",
-              total:progressingCount,
-              group:self.skillModel().get("name")
-            },
-            {
-              proficiency:"proficient",
-              total:proficientCount,
-              group:self.skillModel().get("name")
-            },
-            {
-              proficiency:"experienced",
-              total:experiencedCount,
-              group:self.skillModel().get("name")
-            },
-            {
-              proficiency:"expert",
-              total:expertCount,
-              group:self.skillModel().get("name")
-            }
-          ]);
-        }
-      });
+            model.get("users").forEach(user => {
       
-      // var chartData = [
-      //   {
-      //     "id": 0,
-      //     "series": "Expert",
-      //     "group": "Group A",
-      //     "value": 42
-      //   },
-      //   {
-      //     "id": 1,
-      //     "series": "Experienced",
-      //     "group": "Group A",
-      //     "value": 55
-      //   },
-      //   {
-      //     "id": 2,
-      //     "series": "Proficient",
-      //     "group": "Group A",
-      //     "value": 36
-      //   },
-      //   {
-      //     "id": 3,
-      //     "series": "Progressing",
-      //     "group": "Group A",
-      //     "value": 22
-      //   },
-      //   {
-      //     "id": 4,
-      //     "series": "Introductory",
-      //     "group": "Group A",
-      //     "value": 22
-      //   }
-      // ];
+              switch(user.proficiency) {
+                case "INTRODUCTORY":
+                  introductoryCount++
+                  break;
+                case "PROGRESSING":
+                  progressingCount++
+                  break;
+                case "PROFICIENT":
+                  proficientCount++
+                  break;
+                case "EXPERIENCED":
+                  experiencedCount++
+                  break;
+                case "EXPERT":
+                  expertCount++
+                  break;
+              }
+            })
+
+            self.chartData([
+              {
+                proficiency:"Introductory",
+                total:introductoryCount,
+                group:self.skillModel().get("name")
+              },
+              {
+                proficiency:"Progressing",
+                total:progressingCount,
+                group:self.skillModel().get("name")
+              },
+              {
+                proficiency:"Proficient",
+                total:proficientCount,
+                group:self.skillModel().get("name")
+              },
+              {
+                proficiency:"Experienced",
+                total:experiencedCount,
+                group:self.skillModel().get("name")
+              },
+              {
+                proficiency:"Expert",
+                total:expertCount,
+                group:self.skillModel().get("name")
+              }
+            ]);
+          }
+        });
+      }
+
       this.donutDataProvider = new ArrayDataProvider(self.chartData, {keyAttributes: 'id'});
 
-      var browsers = [
-        { value: 'IE', label: 'Java SE' },
-        { value: 'FF', label: 'Oracle JET' },
-        { value: 'CH', label: 'Kafka' },
-        { value: 'OP', label: 'Oracle ACCS' },
-        { value: 'SA', label: 'HTML5' }
-      ];
-
-      // self.skillsDP;
-
-      
-
-      var socialNetworks =   [
-        {
-          "id": "Java SE",
-          // "14-17": 63.7,
-          // "18-34": 83.2,
-          // "35-54": 74.1,
-          "total": 76.8,
-          "url": "https://www.facebook.com"
-        },
-        {
-          "id": "Oracle JET",
-          "14-17": 81.9,
-          "18-34": 77.6,
-          "35-54": 54.2,
-          "total": 66.4,
-          "url": "https://www.youtube.com"
-        },
-        {
-          "id": "Oracle database 12c",
-          "14-17": 31,
-          "18-34": 38.7,
-          "35-54": 28.3,
-          "total": 32.8,
-          "url": "https://twitter.com"
-        },
-        {
-          "id": "Blockchain",
-          "14-17": 56.4,
-          "18-34": 37.2,
-          "35-54": 16,
-          "total": 28.5,
-          "url": "https://instagram.com"
-        },
-        {
-          "id": "Microservices",
-          "14-17": 24.6,
-          "18-34": 25,
-          "35-54": 20,
-          "total": 22.7,
-          "url": "https://plus.google.com"
-        },
-        {
-          "id": "Kafka",
-          "14-17": 1.5,
-          "18-34": 15.9,
-          "35-54": 20,
-          "total": 16.6,
-          "url": "https://www.linkedin.com"
-        },
-        {
-          "id": "Oracle identity cloud",
-          "14-17": 36.8,
-          "18-34": 21.1,
-          "35-54": 4.2,
-          "total": 14.2,
-          "url": "https://www.snapchat.com"
-        },
-        {
-          "id": "Node JS",
-          "14-17": 23.8,
-          "18-34": 15.6,
-          "35-54": 5.7,
-          "total": 11.5,
-          "url": "https://www.tumblr.com"
-        },
-        {
-          "id": "Oracle API platform",
-          "14-17": 31.8,
-          "18-34": 15.5,
-          "35-54": 3.5,
-          "total": 11.1,
-          "url": "https://vine.co"
-        },
-        {
-          "id": "Oracle Developer CS",
-          "14-17": 8,
-          "18-34": 9.8,
-          "35-54": 4,
-          "total": 6.8,
-          "url": "https://www.whatsapp.com"
-        },
-        {
-          "id": "Robotic process automation",
-          "14-17": 8,
-          "18-34": 8.5,
-          "35-54": 3.9,
-          "total": 6.2,
-          "url": "https://www.reddit.com"
-        },
-        {
-          "id": "Oracle ACCS",
-          "14-17": 3.6,
-          "18-34": 3.9,
-          "35-54": 6.9,
-          "total": 5.4,
-          "url": "https://www.flickr.com"
-        },
-        {
-          "id": "Java EE",
-          "14-17": 3.6,
-          "18-34": 2,
-          "35-54": 0.6,
-          "total": 1.5,
-          "url": "https://www.pintrest.com"
-        }
-      ]
-
-      this.tagCloudDataProvider = new ArrayDataProvider(self.mostUsedSkills, {keyAttributes: 'id'})
-      oj.Logger.error(self.mostUsedSkills);
+      self.tagCloudDataProvider(new ArrayDataProvider(self.mostUsedSkills, {keyAttributes: 'name'}));
       
       function compare(a, b) {
         // Use toUpperCase() to ignore character casing
@@ -269,9 +128,9 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'factories/UserFactory', 'factories/
       
         let comparison = 0;
         if (bandA > bandB) {
-          comparison = 1;
-        } else if (bandA < bandB) {
           comparison = -1;
+        } else if (bandA < bandB) {
+          comparison = 1;
         }
         return comparison;
       }
@@ -280,12 +139,14 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'factories/UserFactory', 'factories/
         return {'insert':dataContext.name};
       };
       
-      self.loadSkillData = function(skilledUsersArray) {
+      self.loadSkillData = function(skill) {
 
+        var skilledUsersArray = skill.skilledUsers;
         
         var set = [];
         
         for (var i = 0; i < skilledUsersArray.length; i++) {
+
           
           set.push({
             name: skilledUsersArray[i],
@@ -331,7 +192,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'factories/UserFactory', 'factories/
         busyContext = oj.Context.getContext(chartContainer).getBusyContext();
         resolve = busyContext.addBusyState({"description": "Loading API Data"});
         self.masterSkillArray.removeAll();
-        self.mostUsedSkills.removeAll();
+        self.mostUsedSkills([]);
         self.usersWithHighPrioritySkills(0);
         skillArray = [];        
         self.skillList = SkillFactory.createSkillCollection();
@@ -345,6 +206,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'factories/UserFactory', 'factories/
             for (var i = 0; i < collection.size(); i++) {
               
               var skill = collection.at(i);
+              oj.Logger.error(skill);
               var tempObject = {
                 "name": skill.get("name"),
                 "priority": skill.get("priority"),
@@ -353,19 +215,16 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'factories/UserFactory', 'factories/
               };
               skillArray[skill.get("name")] = self.masterSkillArray().length;
               self.masterSkillArray.push(tempObject);
+              
               self.skillOptions.push({
-                value:skill.get("name"),
+                value:skill.get("id"),
                 label:skill.get("name"),
                 total: self.masterSkillArray().length
               });
               
             }
-            self.skillsDP(new ArrayDataProvider(self.skillOptions()));
+            self.skillsDP(new ArrayDataProvider(self.skillOptions(), { keyAttributes: 'value' }));
 
-            // { value: 'IE', label: 'Java SE' },
-
-            oj.Logger.error(self.skillsDP);
-            
             self.userCollection.fetch({
               success: function(collection, response, options) {
                 self.totalUsers(self.userCollection.size());
@@ -387,9 +246,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'factories/UserFactory', 'factories/
                       var skillIndex = skillArray[userSkills[k].name];
                       var specificSkill = self.masterSkillArray()[skillIndex];
                       specificSkill.skilledUsers[specificSkill.skilledUsers.length] = (user.get("firstName") + " " + user.get("surname"));
-
                     }
-
                   }
 
                 }
@@ -399,24 +256,24 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'factories/UserFactory', 'factories/
                 busyContext.whenReady().then(function() { 
                   self.apiLoaded(true);
                 });
-                oj.Logger.error(self.masterSkillArray());
+                self.highPrioritySkills = self.masterSkillArray().filter(skill => skill.priority === 'High');
+                self.mediumPrioritySkills = self.masterSkillArray().filter(skill => skill.priority === 'Medium');
+                self.lowPrioritySkills = self.masterSkillArray().filter(skill => skill.priority === 'Low');
 
-                self.masterSkillArray().forEach(skill => {
-                  self.mostUsedSkills.push({
-                    name: skill.name,
-                    total: skill.skilledUsers.length
-                  })
-                })
+                self.masterSkillArray().sort(function(a, b) {
+                  if (a.skilledUsers.length > b.skilledUsers.length) {
+                    return -1;
+                  } else if (a.skilledUsers.length == b.skilledUsers.length) {
+                    return 0;
+                  } else {
+                    return 1;
+                  }
+                }).slice(0,10).forEach(skill => self.mostUsedSkills.push({
+                  name: skill.name,
+                  total: skill.skilledUsers.length
+                }));
 
-                // oj.Logger.error(self.mostUsedSkills);
-
-                // var i;
-                // self.mostUsedSkills.sort(function (a, b) {
-                //   oj.Logger.error(a);
-                //   oj.Logger.error(b);
-                //   return parseFloat(a.total) - parseFloat(b.total);
-                // });
-                // oj.Logger.error(self.mostUsedSkills);
+                self.skillSelectorValue("1");
 
               }
             });
