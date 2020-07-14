@@ -6,7 +6,7 @@
  * Your home ViewModel code goes here
  */
 define(['ojs/ojcore', 'knockout', 'jquery', 'factories/UserFactory', 'factories/SkillFactory', 'ojs/ojarraydataprovider', 'ojs/ojconverter-number', 'ojs/ojtagcloud',
-        'ojs/ojknockout', 'ojs/ojpictochart', 'ojs/ojmodel', 'ojs/ojgauge', 'ojs/ojlabel', 'ojs/ojchart', 'ojs/ojselectsingle'],
+        'ojs/ojknockout', 'ojs/ojpictochart', 'ojs/ojmodel', 'ojs/ojgauge', 'ojs/ojlabel', 'ojs/ojchart', 'ojs/ojselectsingle','ojs/ojlegend'],
  function(oj, ko, $, UserFactory, SkillFactory, ArrayDataProvider, NumberConverter) {
   
     function HomeViewModel() {
@@ -29,17 +29,50 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'factories/UserFactory', 'factories/
         }
       }, this);
       self.skillOptions = ko.observableArray();
-      self.skillsDP = ko.observable();
+      self.skillSelectorDP = ko.observable();
       self.skillSelectorValue = ko.observable(1);
       self.mostUsedSkills = ko.observableArray();
       self.chartData = ko.observableArray();
       self.pieChartLabel = ko.observable();
 
-      var skillArray = [];
       self.masterSkillArray = ko.observableArray();
       self.highPrioritySkills;
       self.mediumPrioritySkills;
       self.lowPrioritySkills;
+
+      var sixMonthsAgoDate = new Date();
+      sixMonthsAgoDate.setMonth(sixMonthsAgoDate.getMonth() - 6);
+      oj.Logger.error(sixMonthsAgoDate);
+
+      var date = new Date(2020, 00, 16).toISOString();
+      oj.Logger.error(date);
+
+      oj.Logger.error(date > sixMonthsAgoDate)
+
+
+      // if (date > sixMonthsAgoDate) {
+      //   oj.Logger.error(true);
+      // } else {
+      //   oj.Logger.error(true);
+      // }
+
+
+
+      self.tagCloudLegend = [{
+          text: "High",
+          color:"rgb(237, 102, 71)",
+        },
+        {
+          text: "Medium",
+          color:"rgb(250, 213, 92)",
+        },
+        {
+          text: "Low",
+          color:"rgb(104, 193, 130)",
+        }
+      ]
+      self.legendDP = new ArrayDataProvider(self.tagCloudLegend, {keyAttributes: 'text'});
+
 
       this.customConverter = {style: {color:'white'}, position: 'center', rendered: 'on', converter: new NumberConverter.IntlNumberConverter({ style: 'percent', pattern: '#,##%' }) };
 
@@ -141,19 +174,43 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'factories/UserFactory', 'factories/
       
       self.loadSkillData = function(skill) {
 
-        var skilledUsersArray = skill.skilledUsers;
+        
+        var skilledUsersArray = skill.get('users');
         
         var set = [];
         
         for (var i = 0; i < skilledUsersArray.length; i++) {
 
+          var color = "#C0C0C0";
+
+          switch (skilledUsersArray[i].proficiency) {
+            case 'INTRODUCTORY':
+              color = 'rgb(35, 123, 177)'
+              ordering = 5;
+              break;
+            case 'PROGRESSING':
+              color = 'rgb(104, 193, 130)'
+              ordering = 4;
+              break;
+            case 'PROFICIENT':
+              color = 'rgb(250, 213, 92)'
+              ordering = 3;
+              break;
+            case 'EXPERIENCED':
+              color = 'rgb(237, 102, 71)'
+              ordering = 2;
+              break;
+            case 'EXPERT':
+              color = 'rgb(133, 97, 200)'
+              ordering = 1;
+              break;
+          }
           
           set.push({
-            name: skilledUsersArray[i],
+            name: skilledUsersArray[i].firstName + " " + skilledUsersArray[i].surname + ": " + skilledUsersArray[i].proficiency,
             shape: 'human',
-            color: '#60D683'
-            // color: '#68C182'
-            // color: '#FFD700'
+            color: color,
+            order: ordering
           });
           
         }
@@ -161,11 +218,11 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'factories/UserFactory', 'factories/
         set.push({
           name: '',
           shape: 'human',
-          color: '#C0C0C0',
+          color: 'rgb(192, 192, 192)',
           count: self.userCollection.size() - skilledUsersArray.length
         });
 
-        return set;
+        return set.sort((a, b) => parseFloat(a.order) - parseFloat(b.order));
 
       };
 
@@ -203,79 +260,75 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'factories/UserFactory', 'factories/
 
             self.totalSkills(collection.size());
 
-            for (var i = 0; i < collection.size(); i++) {
-              
-              var skill = collection.at(i);
-              oj.Logger.error(skill);
-              var tempObject = {
-                "name": skill.get("name"),
-                "priority": skill.get("priority"),
-                // "stream": skill.get("stream"),
-                "skilledUsers": []
-              };
-              skillArray[skill.get("name")] = self.masterSkillArray().length;
-              self.masterSkillArray.push(tempObject);
-              
-              self.skillOptions.push({
-                value:skill.get("id"),
-                label:skill.get("name"),
-                total: self.masterSkillArray().length
-              });
-              
-            }
-            self.skillsDP(new ArrayDataProvider(self.skillOptions(), { keyAttributes: 'value' }));
+            collection.each(skill => self.skillOptions.push({
+                value: skill.get("id"),
+                label: skill.get("name"),
+                total: collection.size()
+              })
+            );
 
-            self.userCollection.fetch({
-              success: function(collection, response, options) {
-                self.totalUsers(self.userCollection.size());
-                
-                for (var j = 0; j < collection.size(); j++) {
+            self.skillSelectorDP(new ArrayDataProvider(self.skillOptions(), { keyAttributes: 'value' }));
 
-                  var user = collection.at(j);
-                  var userSkills = user.get("skills");
+            self.highPrioritySkills = self.skillList.models.filter(skill => skill.get("priority") === 'High');
+            self.mediumPrioritySkills = self.skillList.models.filter(skill => skill.get("priority") === 'Medium');
+            self.lowPrioritySkills = self.skillList.models.filter(skill => skill.get("priority") === 'High');
 
-                  if (userSkills) {
-                    for(var l = 0; l < userSkills.length; l++) {
-                      if(userSkills[l].priority === "High") {
-                        self.usersWithHighPrioritySkills(self.usersWithHighPrioritySkills() +1)
-                        break;
-                      }
-                    }
+            self.skillList.models.sort(function(a, b) {
+              if (a.get('users').length > b.get('users').length) {
+                return -1;
+              } else if (a.get('users').length == b.get('users').length) {
+                return 0;
+              } else {
+                return 1;
+              }
+            }).slice(0,10).forEach(skill => {
 
-                    for (var k = 0; k < userSkills.length; k++) {
-                      var skillIndex = skillArray[userSkills[k].name];
-                      var specificSkill = self.masterSkillArray()[skillIndex];
-                      specificSkill.skilledUsers[specificSkill.skilledUsers.length] = (user.get("firstName") + " " + user.get("surname"));
-                    }
-                  }
+              var color;
 
+              switch (skill.get('priority')) {
+                case 'High' :
+                  color = 'rgb(237, 102, 71)'
+                  break;
+                case 'Medium' :
+                  color = 'rgb(250, 213, 92)'
+                  break;
+                case 'Low' :
+                  color = 'rgb(104, 193, 130)'
+                  break;
                 }
 
-                resolve();
+              self.mostUsedSkills.push({
+                name: skill.get('name'),
+                total: skill.get('users').length,
+                color: color
+            })});
 
-                busyContext.whenReady().then(function() { 
-                  self.apiLoaded(true);
-                });
-                self.highPrioritySkills = self.masterSkillArray().filter(skill => skill.priority === 'High');
-                self.mediumPrioritySkills = self.masterSkillArray().filter(skill => skill.priority === 'Medium');
-                self.lowPrioritySkills = self.masterSkillArray().filter(skill => skill.priority === 'Low');
+            self.skillSelectorValue("1");
+          }
+        });
 
-                self.masterSkillArray().sort(function(a, b) {
-                  if (a.skilledUsers.length > b.skilledUsers.length) {
-                    return -1;
-                  } else if (a.skilledUsers.length == b.skilledUsers.length) {
-                    return 0;
-                  } else {
-                    return 1;
+        self.userCollection.fetch({
+          success: function(collection, response, options) {
+            self.totalUsers(self.userCollection.size());
+
+            collection.each(user => {
+              var userSkills = user.get("skills");
+
+              if (userSkills) {
+                for(skill of userSkills) {
+                  if(skill.priority === "High") {
+                    self.usersWithHighPrioritySkills(self.usersWithHighPrioritySkills() +1)
+                    break;
                   }
-                }).slice(0,10).forEach(skill => self.mostUsedSkills.push({
-                  name: skill.name,
-                  total: skill.skilledUsers.length
-                }));
-
-                self.skillSelectorValue("1");
+                }
 
               }
+            })
+
+            resolve();
+
+            busyContext.whenReady().then(function() { 
+              self.apiLoaded(true);
             });
 
           }

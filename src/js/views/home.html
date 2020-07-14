@@ -61,7 +61,7 @@
         <oj-select-single id="select1"
           style="max-width:20em"
           on-value-changed="[[skillSelectorChanged]]"
-          data="[[skillsDP]]"
+          data="[[skillSelectorDP]]"
           value="{{skillSelectorValue}}">
         </oj-select-single>
       <oj-chart id="pieChart"
@@ -83,7 +83,7 @@
     <div class="oj-sm-12 oj-md-8 oj-flex-item">
       <div id="tagCloud" class="oj-flex-item oj-panel oj-sm-margin-1x" style="height:100%">
         <oj-label id="indicatorThreshold">
-          Top 10 most used skills
+          Top 10 most used skills by priority
         </oj-label>
         <oj-tag-cloud 
           id='tagcloud1' 
@@ -93,10 +93,25 @@
             <oj-tag-cloud-item 
               label='[[item.data.name]]'
               value='[[item.data.total]]'
+              color='[[item.data.color]]'
               short-desc='[[item.data.name + ": " +item.data.total + " out of " + totalUsers() + " users"]]'>
             </oj-tag-cloud-item>
           </template>
         </oj-tag-cloud>
+        <oj-legend id="legend1"
+          orientation="horizontal"
+          data="[[legendDP]]"
+          valign="top"
+          halign="center"
+          style="clear:both; width:100%; height:20px">
+          <template slot="itemTemplate">
+            <oj-legend-item
+                text="[[$current.data.text]]"
+                marker-shape="square"
+                color="[[$current.data.color]]">
+            </oj-legend-item>
+          </template>
+        </oj-legend>
       </div>
     </div>
   </div>
@@ -117,15 +132,15 @@
             class="oj-flex oj-flex-item oj-sm-flex-direction-column oj-sm-align-items-center oj-panel oj-sm-margin-2x" style="max-width: 320px;">
             <div class="oj-flex oj-sm-justify-content-center"
               style="width:100%;margin:10px;font-size:15px;font-weight:bold;">
-              <span data-bind="text: $current.data.name"></span>
+              <span data-bind="text: $current.data.get('name')"></span>
             </div>
-            <oj-picto-chart data-bind="attr: {'id': $current.data.name}"
+            <oj-picto-chart data-bind="attr: {'id': $current.data.get('name')}"
               items="[[loadSkillData($current.data)]]" tooltip.renderer="[[tooltipFunction]]"
               style="width:100%;max-width:250px;min-height:130px;">
             </oj-picto-chart>
             <div class="oj-flex oj-sm-justify-content-center"
               style="width:100%;margin:10px;background-color:#ececec;border-radius:5px;font-size:15px;font-weight:bold;">
-              <span data-bind="text: loadSkillPercent($current.data.skilledUsers)"></span>
+              <span data-bind="text: loadSkillPercent($current.data.get('users'))"></span>
             </div>
           </div>
         </template>
@@ -144,15 +159,15 @@
             class="oj-flex oj-flex-item oj-sm-flex-direction-column oj-sm-align-items-center oj-panel oj-sm-margin-2x" style="max-width: 300px;">
             <div class="oj-flex oj-sm-justify-content-center"
               style="width:100%;margin:10px;font-size:15px;font-weight:bold;">
-              <span data-bind="text: $current.data.name"></span>
+              <span data-bind="text: $current.data.get('name')"></span>
             </div>
-            <oj-picto-chart data-bind="attr: {'id': $current.data.name}"
-              items="[[loadSkillData($current.data)]]" tooltip.renderer="[[tooltipFunction]]"
-              style="width:100%;max-width:250px;min-height:130px;">
+            <oj-picto-chart data-bind="attr: {'id': $current.data.get('name')}"
+            items="[[loadSkillData($current.data)]]" tooltip.renderer="[[tooltipFunction]]"
+            style="width:100%;max-width:250px;min-height:130px;">
             </oj-picto-chart>
             <div class="oj-flex oj-sm-justify-content-center"
               style="width:100%;margin:10px;background-color:#ececec;border-radius:5px;font-size:15px;font-weight:bold;">
-              <span data-bind="text: loadSkillPercent($current.data.skilledUsers)"></span>
+              <span data-bind="text: loadSkillPercent($current.data.get('users'))"></span>
             </div>
           </div>
         </template>
@@ -170,15 +185,15 @@
           <div class="oj-flex oj-flex-item oj-sm-flex-direction-column oj-sm-align-items-center oj-panel oj-sm-margin-2x" style="max-width: 300px;">
             <div class="oj-flex oj-sm-justify-content-center"
               style="width:100%;margin:10px;font-size:15px;font-weight:bold;">
-              <span data-bind="text: $current.data.name"></span>
+              <span data-bind="text: $current.data.get('name')"></span>
             </div>
             <oj-picto-chart data-bind="attr: {'id': $current.data.name}"
-              items="[[loadSkillData($current.data)]]" tooltip.renderer="[[tooltipFunction]]"
+            items="[[loadSkillData($current.data)]]" tooltip.renderer="[[tooltipFunction]]"
               style="width:100%;max-width:250px;min-height:130px;">
             </oj-picto-chart>
             <div class="oj-flex oj-sm-justify-content-center"
               style="width:100%;margin:10px;background-color:#ececec;border-radius:5px;font-size:15px;font-weight:bold;">
-              <span data-bind="text: loadSkillPercent($current.data.skilledUsers)"></span>
+              <span data-bind="text: loadSkillPercent($current.data.get('users'))"></span>
             </div>
           </div>
         </template>
