@@ -28,6 +28,14 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'factories/UserFactory', 'factories/
           return self.usersWithHighPrioritySkills()/self.totalUsers()*100
         }
       }, this);
+      self.totalUsersUpdatedRecently = ko.observable(0);
+      this.recentlyUpdatedSkillsPercentage = ko.computed(function () {
+        if(self.totalUsersUpdatedRecently() == 0 && self.totalUsers() == 0) {
+          return 0;
+        } else {
+          return (self.totalUsersUpdatedRecently()/self.totalUsers()*100).toFixed(2)
+        }
+      }, this);
       self.skillOptions = ko.observableArray();
       self.skillSelectorDP = ko.observable();
       self.skillSelectorValue = ko.observable(1);
@@ -40,14 +48,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'factories/UserFactory', 'factories/
       self.mediumPrioritySkills;
       self.lowPrioritySkills;
 
-      var sixMonthsAgoDate = new Date();
-      sixMonthsAgoDate.setMonth(sixMonthsAgoDate.getMonth() - 6);
-      oj.Logger.error(sixMonthsAgoDate);
-
-      var date = new Date(2020, 00, 16).toISOString();
-      oj.Logger.error(date);
-
-      oj.Logger.error(date > sixMonthsAgoDate)
+      
 
 
       // if (date > sixMonthsAgoDate) {
@@ -310,8 +311,26 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'factories/UserFactory', 'factories/
         self.userCollection.fetch({
           success: function(collection, response, options) {
             self.totalUsers(self.userCollection.size());
+            var sixMonthsAgoDate = new Date();
+            sixMonthsAgoDate.setMonth(sixMonthsAgoDate.getMonth() - 6);
+            
+            // oj.Logger.error(sixMonthsAgoDate);
+
+            // var date = new Date(2020, 00, 16);
+            // oj.Logger.error(date);
+
+            // oj.Logger.error(date > sixMonthsAgoDate)
 
             collection.each(user => {
+
+              // oj.Logger.error(sixMonthsAgoDate);
+
+              // oj.Logger.error(user.get("lastUpdatedSkills"));
+              
+              if(Date.parse(user.get("lastUpdatedSkills")) > sixMonthsAgoDate) {
+                self.totalUsersUpdatedRecently(self.totalUsersUpdatedRecently() + 1);
+              }
+
               var userSkills = user.get("skills");
 
               if (userSkills) {
@@ -320,10 +339,13 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'factories/UserFactory', 'factories/
                     self.usersWithHighPrioritySkills(self.usersWithHighPrioritySkills() +1)
                     break;
                   }
+
                 }
 
-              }
+              }  
             })
+
+            oj.Logger.error(self.totalUsersUpdatedRecently());
 
             resolve();
 

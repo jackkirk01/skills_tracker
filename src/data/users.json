@@ -4,6 +4,7 @@
         "userId":"1",
         "firstName":"Alex",
         "surname":"Aidoo-Micah",
+        "lastUpdatedSkills":"Thu Jan 16 2020 00:00:00 GMT+0000 (Greenwich Mean Time)",
         "skills":[
            {
               "skillId":"1",
@@ -32,6 +33,7 @@
         "userId":"2",
         "firstName":"Mohamed",
         "surname":"Bara",
+        "lastUpdatedSkills":"Thu Jan 16 2020 00:00:00 GMT+0000 (Greenwich Mean Time)",
         "skills":[
            {
               "skillId":"3",
@@ -53,6 +55,7 @@
         "userId":"3",
         "firstName":"Guy",
         "surname":"Barnes",
+        "lastUpdatedSkills":"Thu Jan 16 2020 00:00:00 GMT+0000 (Greenwich Mean Time)",
         "skills":[
            {
               "skillId":"9",
@@ -81,6 +84,7 @@
         "userId":"4",
         "firstName":"Andy",
         "surname":"Bell",
+        "lastUpdatedSkills":"Thu Jan 16 2020 00:00:00 GMT+0000 (Greenwich Mean Time)",
         "skills":[
            {
               "skillId":"7",
@@ -102,6 +106,7 @@
         "userId":"5",
         "firstName":"Ben",
         "surname":"Burbage",
+        "lastUpdatedSkills":"Thu Jan 16 2020 00:00:00 GMT+0000 (Greenwich Mean Time)",
         "skills":[
            {
               "skillId":"2",
@@ -123,6 +128,7 @@
         "userId":"6",
         "firstName":"David",
         "surname":"Carter",
+        "lastUpdatedSkills":"Thu Jan 16 2020 00:00:00 GMT+0000 (Greenwich Mean Time)",
         "skills":[
            {
               "skillId":"2",
@@ -144,6 +150,7 @@
         "userId":"7",
         "firstName":"Vickie",
         "surname":"Challis",
+        "lastUpdatedSkills":"Thu Jan 16 2020 00:00:00 GMT+0000 (Greenwich Mean Time)",
         "skills":[
            {
               "skillId":"2",
@@ -165,6 +172,7 @@
         "userId":"8",
         "firstName":"Nicola",
         "surname":"D'Orazio",
+        "lastUpdatedSkills":"Thu Jan 16 2020 00:00:00 GMT+0000 (Greenwich Mean Time)",
         "skills":[
            {
               "skillId":"2",
@@ -186,6 +194,7 @@
         "userId":"9",
         "firstName":"Yury",
         "surname":"Fjodorovs",
+        "lastUpdatedSkills":"Thu Jan 16 2020 00:00:00 GMT+0000 (Greenwich Mean Time)",
         "skills":[
            {
               "skillId":"2",
@@ -207,6 +216,7 @@
         "userId":"10",
         "firstName":"Jonathan",
         "surname":"Guppy",
+        "lastUpdatedSkills":"Thu Jan 16 2020 00:00:00 GMT+0000 (Greenwich Mean Time)",
         "skills":[
            {
               "skillId":"2",
@@ -228,6 +238,7 @@
         "userId":"11",
         "firstName":"Emma",
         "surname":"Halliday",
+        "lastUpdatedSkills":"Thu Jan 16 2020 00:00:00 GMT+0000 (Greenwich Mean Time)",
         "skills":[
            {
               "skillId":"1",
@@ -249,6 +260,7 @@
         "userId":"12",
         "firstName":"Chris",
         "surname":"Hollies",
+        "lastUpdatedSkills":"Thu Jan 16 2020 00:00:00 GMT+0000 (Greenwich Mean Time)",
         "skills":[
            {
               "skillId":"3",
@@ -270,6 +282,7 @@
         "userId":"13",
         "firstName":"Jack",
         "surname":"Kirk",
+        "lastUpdatedSkills":"Thu Jan 16 2020 00:00:00 GMT+0000 (Greenwich Mean Time)",
         "skills":[
            {
               "skillId":"9",
@@ -298,6 +311,7 @@
         "userId":"14",
         "firstName":"Richard",
         "surname":"Lanchbury",
+        "lastUpdatedSkills":"Thu Jan 16 2020 00:00:00 GMT+0000 (Greenwich Mean Time)",
         "skills":[
            {
               "skillId":"7",
@@ -319,6 +333,7 @@
         "userId":"15",
         "firstName":"Romesh",
         "surname":"Lokuge",
+        "lastUpdatedSkills":"Thu Jan 16 2020 00:00:00 GMT+0000 (Greenwich Mean Time)",
         "skills":[
            {
               "skillId":"2",
@@ -340,6 +355,7 @@
         "userId":"16",
         "firstName":"Sam",
         "surname":"Longton",
+        "lastUpdatedSkills":"Thu Jan 16 2020 00:00:00 GMT+0000 (Greenwich Mean Time)",
         "skills":[
            {
               "skillId":"2",
@@ -361,6 +377,7 @@
         "userId":"17",
         "firstName":"Adrian",
         "surname":"Lowe",
+        "lastUpdatedSkills":"Thu Jan 16 2020 00:00:00 GMT+0000 (Greenwich Mean Time)",
         "skills":[
            {
               "skillId":"2",
@@ -382,6 +399,7 @@
         "userId":"18",
         "firstName":"Ramesh",
         "surname":"Madhavan",
+        "lastUpdatedSkills":"Thu Jan 16 2020 00:00:00 GMT+0000 (Greenwich Mean Time)",
         "skills":[
            {
               "skillId":"2",
@@ -403,6 +421,7 @@
         "userId":"19",
         "firstName":"Paul",
         "surname":"Martin",
+        "lastUpdatedSkills":"Thu Jan 16 2020 00:00:00 GMT+0000 (Greenwich Mean Time)",
         "skills":[
            {
               "skillId":"2",
@@ -424,6 +443,7 @@
         "userId":"20",
         "firstName":"Bipin",
         "surname":"Mistry",
+        "lastUpdatedSkills":"Thu Jan 16 2020 00:00:00 GMT+0000 (Greenwich Mean Time)",
         "skills":[
            {
               "skillId":"2",
@@ -445,6 +465,7 @@
         "userId":"21",
         "firstName":"James",
         "surname":"Neate",
+        "lastUpdatedSkills":"Thu Jan 16 2020 00:00:00 GMT+0000 (Greenwich Mean Time)",
         "skills":[
            {
               "skillId":"1",
@@ -466,6 +487,7 @@
         "userId":"22",
         "firstName":"Ramnik",
         "surname":"Pattni",
+        "lastUpdatedSkills":"Thu Jan 16 2020 00:00:00 GMT+0000 (Greenwich Mean Time)",
         "skills":[
            {
               "skillId":"3",
@@ -487,6 +509,7 @@
         "userId":"23",
         "firstName":"Sander",
         "surname":"Rensen",
+        "lastUpdatedSkills":"Thu Jan 16 2020 00:00:00 GMT+0000 (Greenwich Mean Time)",
         "skills":[
            {
               "skillId":"9",
@@ -515,6 +538,7 @@
         "userId":"24",
         "firstName":"Luis",
         "surname":"Weir",
+        "lastUpdatedSkills":"Thu Jan 16 2020 00:00:00 GMT+0000 (Greenwich Mean Time)",
         "skills":[
            {
               "skillId":"7",
@@ -536,6 +560,7 @@
         "userId":"25",
         "firstName":"Phil",
         "surname":"Wilkins",
+        "lastUpdatedSkills":"Thu Jan 16 2020 00:00:00 GMT+0000 (Greenwich Mean Time)",
         "skills":[
            {
               "skillId":"2",
@@ -557,6 +582,7 @@
         "userId":"26",
         "firstName":"Alex",
         "surname":"Cooper",
+        "lastUpdatedSkills":"Thu Jan 16 2020 00:00:00 GMT+0000 (Greenwich Mean Time)",
         "skills":[
            {
               "skillId":"2",
@@ -578,6 +604,7 @@
         "userId":"27",
         "firstName":"Arjun",
         "surname":"Deo",
+        "lastUpdatedSkills":"Thu Jan 16 2020 00:00:00 GMT+0000 (Greenwich Mean Time)",
         "skills":[
            {
               "skillId":"2",
@@ -599,6 +626,7 @@
         "userId":"28",
         "firstName":"Amy",
         "surname":"Grange",
+        "lastUpdatedSkills":"Thu Jan 16 2020 00:00:00 GMT+0000 (Greenwich Mean Time)",
         "skills":[
            {
               "skillId":"2",
@@ -620,6 +648,7 @@
         "userId":"29",
         "firstName":"New",
         "surname":"Person 1",
+        "lastUpdatedSkills":"Thu Jan 16 2020 00:00:00 GMT+0000 (Greenwich Mean Time)",
         "skills":[
 
         ]
@@ -628,6 +657,7 @@
         "userId":"30",
         "firstName":"New",
         "surname":"Person 2",
+        "lastUpdatedSkills":"Thu Jan 16 2020 00:00:00 GMT+0000 (Greenwich Mean Time)",
         "skills":[
 
         ]
