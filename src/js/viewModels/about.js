@@ -6,28 +6,14 @@ define(['accUtils', 'knockout', 'ojs/ojbootstrap', 'ojs/ojcollectiondataprovider
       var self = this;
       self.editRow = ko.observable();
       var proficiencies = [{ value: 'introductory', label: 'Introductory' },
-      { value: 'progressing', label: 'progressing' },
-      { value: 'proficient', label: 'Proficient' },
-      { value: 'experienced', label: 'Experienced' },
-      { value: 'expert', label: 'Expert' }];
+                          { value: 'progressing', label: 'progressing' },
+                          { value: 'proficient', label: 'Proficient' },
+                          { value: 'experienced', label: 'Experienced' },
+                          { value: 'expert', label: 'Expert' }];
 
       self.proficiencyOptions = new ArrayDataProvider(proficiencies, { keyAttributes: 'value' });
 
       self.filter = ko.observable();
-
-      var skills2 = [{ "id": "71", "name": "Kafka", "type": "Product", "stream": ["iPaas"], "priority": "High" },
-      { "id": "81", "name": "NodeJS", "type": "Language", "stream": ["ModernApps"], "priority": "High" },
-      { "id": "91", "name": "Microservices", "type": "WebServices", "stream": ["ModernApps"], "priority": "High" },
-      { "id": "101", "name": "OracleJET", "type": "JavaScriptToolkit", "stream": ["ModernApps"], "priority": "High" },
-      { "id": "111", "name": "OracleApplicationContainerCloudService", "type": "Product", "stream": ["ModernApps"], "priority": "High" },
-      { "id": "121", "name": "Blockchain", "type": "Concept", "stream": ["ModernApps"], "priority": "Low" },
-      { "id": "611", "name": "OracleRoboticProcessAutomation", "type": "Product", "stream": ["iPaas"], "priority": "High" },
-      { "id": "71", "name": "Kafka", "type": "Product", "stream": ["iPaas"], "priority": "High" },
-      { "id": "81", "name": "NodeJS", "type": "Language", "stream": ["ModernApps"], "priority": "High" },
-      { "id": "91", "name": "Microservices", "type": "WebServices", "stream": ["ModernApps"], "priority": "High" },
-      { "id": "101", "name": "OracleJET", "type": "JavaScriptToolkit", "stream": ["ModernApps"], "priority": "High" },
-      { "id": "111", "name": "OracleApplicationContainerCloudService", "type": "Product", "stream": ["ModernApps"], "priority": "High" },
-      { "id": "121", "name": "Blockchain", "type": "Concept", "stream": ["ModernApps"], "priority": "Low" }];
 
       self.tableSelection = [];
 
@@ -39,39 +25,23 @@ define(['accUtils', 'knockout', 'ojs/ojbootstrap', 'ojs/ojcollectiondataprovider
       // WIP code for removing items from the all skills list if user already has those skills.
       //---------------------------------------------------------------------------------------
 
-      SkillFactory.createSkillCollection().fetch({
+      self.skillsCollection().fetch({
         success: function (collection) {
-        oj.Logger.error(collection.length);
+          oj.Logger.error(collection.length);
+              
+          UserFactory.createUserModel().fetch({
+            success: function (model) {
+  
+              self.listviewArr(model.get('skills'));
 
-        var test = new oj.Model(
-          {
-            "id": "12",
-            // "name": "Java SE",
-            // "type": "Base Language",
-            // "stream": [
-            //   "iPaas",
-            //   "Modern Apps"
-            // ],
-            // "proficiency":"expert",
-            // "priority": "High"
+              self.skillsCollection().remove(model.get('skills'));
+  
+              oj.Logger.error(self.skillsCollection().models);
+            }
+          })
+  
           }
-        );
-
-        oj.Logger.error(collection.difference([test]));
-
-        }
       })
-      
-      // UserFactory.createUserModel().fetch({
-      //     success: function (model) {
-      //       oj.Logger.error(model.get('skills'));
-
-      //       var models = [model.get('skills')]
-            
-      //       oj.Logger.error(self.skillsCollection().difference(model.get('skills')));
-
-      //   }
-      // });
 
       self.tableDataProvider = ko.computed(function () {
         var filterRegEx = new RegExp(self.filter(), 'i');
@@ -108,7 +78,6 @@ define(['accUtils', 'knockout', 'ojs/ojbootstrap', 'ojs/ojcollectiondataprovider
           for (var i = 0; i < self.tableSelection.length; i++) {
             var startkey = self.tableSelection[i].startKey.row;
             var start = -1;
-            oj.Logger.error(self.skillsCollection().models);
             for (var j = 0; j < self.skillsCollection().length; j++) {
               if (self.skillsCollection().models[j].id=== startkey) {
                 start = j;
@@ -121,7 +90,7 @@ define(['accUtils', 'knockout', 'ojs/ojbootstrap', 'ojs/ojcollectiondataprovider
       };
 
       self.listviewSelection = [];
-      self.listviewArr = ko.observableArray(skills2);
+      self.listviewArr = ko.observableArray();
       self.listviewDataProvider = new ArrayDataProvider(self.listviewArr, { keyAttributes: 'id' });
 
       self.listviewHandleDrop = function (event, context) {
@@ -143,12 +112,12 @@ define(['accUtils', 'knockout', 'ojs/ojbootstrap', 'ojs/ojcollectiondataprovider
           }
 
           for (i = data.length - 1; i >= 0; i--) {
-            skills2.splice(index, 0, data[i].data);
+            self.listviewArr().splice(index, 0, data[i].data);
           }
         } else {
           // empty list case
           for (i = 0; i < data.length; i++) {
-            skills2.push(data[i].data);
+            self.listviewArr().push(data[i].data);
           }
         }
         self.listviewArr.valueHasMutated();
@@ -161,10 +130,10 @@ define(['accUtils', 'knockout', 'ojs/ojbootstrap', 'ojs/ojcollectiondataprovider
 
         if (event.dataTransfer.dropEffect !== 'none') {
           for (i = 0; i < self.listviewSelection.length; i++) {
-            for (j = 0; j < skills2.length; j++) {
+            for (j = 0; j < self.listviewArr().length; j++) {
               // remove the selected items from array
-              if (skills2[j].id === self.listviewSelection[i]) {
-                skills2.splice(j, 1);
+              if (self.listviewArr()[j].id === self.listviewSelection[i]) {
+                self.listviewArr().splice(j, 1);
                 break;
               }
             }

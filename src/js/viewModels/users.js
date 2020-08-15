@@ -5,9 +5,9 @@
 /*
  * Your user ViewModel code goes here
  */
-define(['ojs/ojcore', 'knockout', 'jquery', 'factories/UserFactory',
-        'ojs/ojknockout', 'ojs/ojdatagrid', 'ojs/ojcollectiondatagriddatasource'],
- function(oj, ko, $, UserFactory) {
+define(['ojs/ojcore', 'knockout', 'jquery', 'factories/UserFactory', 'ojs/ojcollectiondataprovider', 'ojs/ojarraydataprovider', 'ojs/ojformlayout', 'ojs/ojinputtext',
+        'ojs/ojknockout', 'ojs/ojdatagrid', 'ojs/ojcollectiondatagriddatasource', 'ojs/ojtable', 'ojs/ojdialog', 'ojs/ojbutton'],
+ function(oj, ko, $, UserFactory, CollectionDataProvider, ArrayDataProvider) {
   
     function UserViewModel() {
       
@@ -18,6 +18,14 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'factories/UserFactory',
       self.userDatasource = ko.observable();
 
       self.userCollection = UserFactory.createUserCollection();
+
+      self.dialogTitle = ko.observable();
+      self.selectedUser = ko.observable();
+      self.selectedUserFirstName = ko.observable();
+      self.selectedUserSurname = ko.observable();
+      self.selectedUserId = ko.observable();
+      self.selectedUserUpdatedDate = ko.observable();
+      self.selectedUserSkills = ko.observableArray();
 
       self.userDatasource(new oj.CollectionDataGridDataSource(
         self.userCollection,
@@ -32,6 +40,10 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'factories/UserFactory',
         }
       ));
 
+      self.dataProvider = ko.observable();
+      self.dataProvider(new CollectionDataProvider(self.userCollection, { keyAttributes:'userId' }));
+      self.userSkillsDataProvider = new ArrayDataProvider(self.selectedUserSkills);
+
       self.getCellTemplate = function(cellContext) {
 
         if (cellContext.keys.column === "skills") {
@@ -44,25 +56,30 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'factories/UserFactory',
 
       };
 
-      self.onUserSkillButton = function(user) {
-        
-        // Open CC with user data - Using a CC so can use in My Skills section also
-        oj.Logger.error(user);
-        alert("Opened User Skills - Check Console");
+      self.userSelectionListener = function (event) {
+        var selectedUserModel = self.userCollection.get(event.detail.value.row.values().values().next().value);
+        self.selectedUser(selectedUserModel.attributes);
+        self.dialogTitle(self.selectedUser().userId + " - " + self.selectedUser().firstName + " " + self.selectedUser().surname)
+        self.selectedUserFirstName(self.selectedUser().firstName)
+        self.selectedUserSurname(self.selectedUser().surname)
+        self.selectedUserId(self.selectedUser().userId);
+        self.selectedUserUpdatedDate(self.selectedUser().lastUpdatedSkills);
+        self.selectedUserSkills(self.selectedUser().skills);
 
-      };
+        oj.Logger.error(self.selectedUserSkills());
+        document.getElementById('modalDialog1').open();
+      }
 
-      self.getCellClassName = function(cellContext) {
+      self.createUserListener = function() {
+        document.getElementById('createUserDialog').open();
+      }
 
-        var key = cellContext.keys.column;
-
-        if (key === "skills" || key === "skillsAdded") {
-          return "oj-helper-justify-content-center";
-        } else {
-          return "oj-helper-justify-content-flex-start";
-        }
-
-      };
+      self.saveUserListener = function() {
+        var newUser = UserFactory.createUserModel();
+        newUser.set('firstName', self.selectedUserFirstName());
+        newUser.set('surname', self.selectedUserSurname());
+        newUser.save();
+      }
 
       self.isEmptyInverted = function(param) {
         // Return is inverted due to being used by disabled

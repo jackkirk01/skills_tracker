@@ -5,11 +5,46 @@
       "surname":"Aidoo-Micah",
       "skills":[
          {
-            "skillId":"1",
+            "id":"1",
             "name":"Java SE",
             "type":"Base Language",
             "priority":"High",
             "proficiency":"INTRODUCTORY"
-         }
+         },
+         {
+          "id":"3",
+          "name":"API Management",
+          "type":"Product",
+          "priority":"High",
+          "proficiency":"EXPERT"
+       },
+       {
+          "id":"10",
+          "name":"Oracle JET",
+          "type":"JavaScript Toolkit",
+          "priority":"High",
+          "proficiency":"EXPERIENCED"
+       },
+       {
+          "id":"9",
+          "name":"Microservices",
+          "type":"Web Services",
+          "priority":"High",
+          "proficiency":"PROGRESSING"
+       },
+       {
+          "id":"12",
+          "name":"Blockchain",
+          "type":"Concept",
+          "priority":"Low",
+          "proficiency":"INTRODUCTORY"
+       },
+       {
+          "id":"2",
+          "name":"Java EE",
+          "type":"Base Language",
+          "priority":"High",
+          "proficiency":"EXPERIENCED"
+       }
       ]
    }

@@ -1,6 +1,6 @@
 <h1>Skills Selection</h1>
 <p>Please select the skills you have by dragging the skill from the "All Skills" list and dropping it into the "Your Skills" list. You may also select multiple skills by holding CTRL, selecting the relevant skills and dragging them into your skills.</p>
-<div id='container'>
+<div id='container' style="min-width:100%">
   <div>
     <oj-label id="label" class="oj-label-inline" for="filter">Search:</oj-label>
     <oj-input-text id="filter" placeholder="Type to search" on-raw-value-changed="[[handleValueChanged]]"
@@ -10,7 +10,7 @@
       Clear
     </oj-button>
   </div>
-  <div style="float:left">
+  <div style="float:left; margin-right:20px; min-width:49%; max-width:100%">
     <fieldset style="border:1px #b0b0b0 solid;padding:10px">
       <legend style="border:1px #b0b0b0 solid;margin-left: 1em;padding:0.2em 0.8em">All Skills</legend>
       <!-- <oj-table id="table" aria-label="Employee Table 1" data="[[tableDataProvider]]" columns='{{columnArray}}'
@@ -24,15 +24,15 @@
         columns-default.sortable='disabled' selection-mode='{"row": "multiple"}' selection='{{tableSelection}}'
         dnd.drag.rows.data-types='["application/ojtablerows+json"]' dnd.drag.rows.drag-end="[[tableHandleDragEnd]]"
         dnd.drop.rows.data-types='["application/ojlistviewitems+json"]' dnd.drop.rows.drop="[[tableHandleDrop]]"
-        style="max-height: 700px;">
+        style="max-height: 700px; min-width: 100%;">
       </oj-table>
     </fieldset>
   </div>
-  <div style="float:left;margin-left:20px;">
+  <div style="float:left;min-width: 49%;">
     <fieldset style="border:1px #b0b0b0 solid;padding:10px">
       <legend style="border:1px #b0b0b0 solid;margin-left: 1em;padding:0.2em 0.8em">Your Skills</legend>
 
-      <oj-list-view id="listview" aria-label="list with static data" style="min-width:400px;width:100%; max-height: 700px;"
+      <oj-list-view id="listview" aria-label="list with static data" style="min-width:100%;width:100%; max-height: 700px;"
         data="[[listviewDataProvider]]" selection-mode="multiple" selection="{{listviewSelection}}"
         dnd.drag.items.data-types='["application/ojlistviewitems+json"]'
         dnd.drag.items.drag-end="[[listviewHandleDragEnd]]" dnd.drop.items.data-types='["application/ojtablerows+json"]'

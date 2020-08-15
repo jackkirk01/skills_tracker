@@ -272,7 +272,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'factories/UserFactory', 'factories/
 
             self.highPrioritySkills = self.skillList.models.filter(skill => skill.get("priority") === 'High');
             self.mediumPrioritySkills = self.skillList.models.filter(skill => skill.get("priority") === 'Medium');
-            self.lowPrioritySkills = self.skillList.models.filter(skill => skill.get("priority") === 'High');
+            self.lowPrioritySkills = self.skillList.models.filter(skill => skill.get("priority") === 'Low');
 
             self.skillList.models.sort(function(a, b) {
               if (a.get('users').length > b.get('users').length) {

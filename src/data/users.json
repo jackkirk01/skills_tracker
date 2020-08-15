@@ -26,6 +26,27 @@
             "type":"JavaScript Toolkit",
             "priority":"High",
             "proficiency":"EXPERIENCED"
+         },
+         {
+            "skillId":"9",
+            "name":"Microservices",
+            "type":"Web Services",
+            "priority":"High",
+            "proficiency":"PROGRESSING"
+         },
+         {
+            "skillId":"12",
+            "name":"Blockchain",
+            "type":"Concept",
+            "priority":"Low",
+            "proficiency":"INTRODUCTORY"
+         },
+         {
+            "skillId":"1",
+            "name":"Java EE",
+            "type":"Base Language",
+            "priority":"High",
+            "proficiency":"EXPERIENCED"
          }
         ]
      },
@@ -538,7 +559,7 @@
         "userId":"24",
         "firstName":"Luis",
         "surname":"Weir",
-        "lastUpdatedSkills":"Thu Jan 16 2020 00:00:00 GMT+0000 (Greenwich Mean Time)",
+        "lastUpdatedSkills":"Thu Jan 18 2020 00:00:00 GMT+0000 (Greenwich Mean Time)",
         "skills":[
            {
               "skillId":"7",

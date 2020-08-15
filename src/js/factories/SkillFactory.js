@@ -4,6 +4,7 @@ function (oj) {
   var SkillFactory = {
 
       skillUri: 'data/skills.json',
+      // skillUri: 'http://140.238.89.200:8080/skills-tracker/v1/skills/',
     //   skillUri: 'https://private-532dfa-skillstracker.apiary-mock.com/skills-tracker/v1/skills/',
       skillsInUseUri: 'data/skillsInUse.json',
       skillByIdUri: 'data/skill.json',

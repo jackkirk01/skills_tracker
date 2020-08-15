@@ -30,7 +30,7 @@ function (oj) {
             //     };
 
             //   },
-              idAttribute: "id"
+              idAttribute: "userId"
           });
 
           return new User();

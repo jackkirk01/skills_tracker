@@ -1,64 +1,91 @@
 <div class="oj-hybrid-padding">
-  <h1>User List</h1>
 
-  <div data-bind="if: apiLoaded" class="oj-flex">
-    
-    <oj-data-grid 
-      id="userDatagrid"
-      style="height: 500px; width:100%"
-      data="[[userDatasource]]"
-      banding-interval.row="1"
-      dnd.reorder.row="enable"
-      header.column.renderer="[[oj.KnockoutTemplateUtils.getRenderer('header_template')]]"
-      header.column.style="width:150px"
-      cell.renderer="[[getCellTemplate]]"
-      cell.class-name="[[getCellClassName]]">
-    </oj-data-grid>
-
+  <div class="oj-flex oj-sm-align-items-center">
+    <div class="oj-flex-item"> 
+      <h1>All Users</h1>
+    </div>
+    <div class="oj-flex-item">
+      <div class="oj-flex oj-sm-justify-content-flex-end">
+        <oj-button on-oj-action=[[createUserListener]]>+ Create User</oj-button>
+      </div>
+    </div>
   </div>
 
-  <!-- <div data-bind="ifnot: apiLoaded">
-    <p>Loading</p>
-  </div> -->
+  <div data-bind="if: apiLoaded" class="oj-flex">
 
-  <script type="text/html" id="header_template">
-    <!-- ko if: $context.key=='firstName' -->            
-        <span data-bind="text: 'First Name'"></span>
-    <!-- /ko -->
-    <!-- ko if: $context.key=='surname' -->
-        <span data-bind="text: 'Surname'"></span>
-    <!-- /ko -->
-    <!-- ko if: $context.key=='stream' -->
-        <span data-bind="text: 'Stream'"></span>
-    <!-- /ko -->
-    <!-- ko if: $context.key=='skillsAdded' -->
-        <span data-bind="text: 'Has Added Skills'"></span>
-    <!-- /ko -->
-    <!-- ko if: $context.key=='skills' -->
-    <span data-bind="text: 'Skills'"></span>
-    <!-- /ko -->
-  </script>
-
-  <script type="text/html" id="cellTemplate">
-
-    <div data-bind="if: ($context.keys.column === 'skills')">
-
-      <oj-button
-        data-bind="click: $parent.onUserSkillButton.bind($data, $context.user)"
-        disabled="[[$parent.isEmptyInverted($context.user.skills)]]"
-        style="margin: 3px; height: 25px"
-        class="oj-button-confirm">
-        Open Skills
+    <oj-table id='table' aria-label='Departments Table'
+      data='[[dataProvider]]'
+      selection-mode='{"row": "single"}'
+      style='width: 100%; height: 800px;'
+      on-selected-changed='{{userSelectionListener}}'
+      columns='[{"headerText": "ID",
+                  "field": "userId"},
+                {"headerText": "First Name", 
+                  "field": "firstName",
+                  "headerClassName": "oj-sm-only-hide",
+                  "className": "oj-sm-only-hide",
+                  "resizable": "enabled"},
+                {"headerText": "Surname", 
+                  "field": "surname",
+                  "resizable": "enabled"},
+                {"headerText": "Skills Added Date", 
+                  "field": "lastUpdatedSkills",
+                  "headerClassName": "oj-sm-only-hide",
+                  "className": "oj-sm-only-hide",
+                  "resizable": "enabled"}]'>
+    </oj-table>
+  </div>
+  <oj-dialog style="display:none; width: 40%;" id="modalDialog1" dialog-title="[[dialogTitle]]">
+    <div slot="body">
+      <oj-form-layout max-columns="2" direction="row">
+        <oj-input-text label-hint="id" value=[[selectedUserId]] readonly>
+        </oj-input-text>
+        <oj-input-text label-hint="Last Updated Skills" value="[[selectedUserUpdatedDate]]" readonly>
+        </oj-input-text>
+        <oj-input-text label-hint="First Name" value="{{selectedUserFirstName}}" readonly>
+        </oj-input-text>
+        <oj-input-text label-hint="Surname" value="{{selectedUserSurname}}" readonly>
+        </oj-input-text>
+      </oj-form-layout>
+      <fieldset style="border:1px #b0b0b0 solid;padding:10px">
+        <legend style="border:1px #b0b0b0 solid;margin-left: 1em;padding:0.2em 0.8em">Skills</legend>
+        <oj-list-view id="listview" style="min-width:400px;width:100%; max-height: 200px;"
+        data="[[userSkillsDataProvider]]">
+          <template slot="itemTemplate" data-oj-as="item">
+            <div class="oj-flex oj-sm-align-items-center">
+              <div class="oj-flex-item" style="padding-right: 10px;">
+                <span>
+                  <oj-bind-text value="[[item.data.name]]"></oj-bind-text>
+                </span>
+              </div>
+                <span>
+                  <oj-bind-text value="[[item.data.proficiency]]"></oj-bind-text>
+                </span>
+            </div>
+          </template>
+        </oj-list-view>
+      </fieldset>
+    </div>
+    <!-- <div slot="footer">
+      <oj-button id="okButton" on-oj-action="[[close]]">Edit
       </oj-button>
-
+      <oj-button id="okButton" on-oj-action="[[close]]">Save
+      </oj-button>
+    </div> -->
+  </oj-dialog>
+  <oj-dialog style="display:none; width: 30%;" id="createUserDialog" dialog-title="New User">
+    <div slot="body">
+      <oj-form-layout max-columns="2" direction="row">
+        <oj-input-text label-hint="First Name" value="{{selectedUserFirstName}}">
+        </oj-input-text>
+        <oj-input-text label-hint="Surname" value="{{selectedUserSurname}}">
+        </oj-input-text>
+      </oj-form-layout>
     </div>
-
-    <div data-bind="ifnot: ($context.keys.column === 'skills')">
-
-      <span data-bind="text: $context.data"></span>
-
+    <div slot="footer">
+      <oj-button id="saveButton" on-oj-action="[[saveUserListener]]">Save
+      </oj-button>
     </div>
-    
-  </script>
+  </oj-dialog>
 
 </div>
