@@ -1,0 +1,73 @@
+<!--
+ Copyright (c) 2014, 2019, Oracle and/or its affiliates.
+ The Universal Permissive License (UPL), Version 1.0
+ -->
+<div class="oj-hybrid-padding">
+  <h1>Dashboard Content Area</h1>
+  <div>
+    <oj-label id="label" class="oj-label-inline" for="filter">Filter:</oj-label>
+    <oj-input-text id="filter" placeholder="Type to filter" on-raw-value-changed="[[handleValueChanged]]"
+      value="{{filter}}"></oj-input-text>
+    <oj-button id="clearButton" on-oj-action='[[clearClick]]' display='icons' chroming='half'>
+      <span slot='startIcon' class='oj-fwk-icon oj-fwk-icon-cross03'></span>
+      Clear
+    </oj-button>
+    <oj-table id="table" aria-label="Departments Table" data='[[dataprovider]]' edit-mode='rowEdit'
+      edit-row='{{editRow}}' on-oj-before-row-edit='[[beforeRowEditListener]]'
+      on-oj-before-row-edit-end='[[beforeRowEditEndListener]]' columns-default.sortable='disabled' columns='[[columnArray]]'>
+
+      <template slot="idTemplate" data-oj-as="cell">
+        <oj-bind-text value="[[numberConverter.format(cell.data)]]"></oj-bind-text>
+      </template>
+
+      <template slot="nameTemplate" data-oj-as="cell">
+        <oj-bind-if test='[[cell.mode=="navigation"]]'>
+          <oj-bind-text value="[[cell.data]]"></oj-bind-text>
+        </oj-bind-if>
+
+        <oj-bind-if test='[[cell.mode=="edit"]]'>
+          <oj-input-text id="it1" value="{{rowData.name}}"></oj-input-text>
+
+        </oj-bind-if>
+      </template>
+
+      <template slot="typeTemplate" data-oj-as="cell">
+        <oj-bind-if test='[[cell.mode=="navigation"]]'>
+          <oj-bind-text value="[[cell.data]]"></oj-bind-text>
+        </oj-bind-if>
+
+
+        <oj-bind-if test='[[cell.mode=="edit"]]'>
+          <oj-input-text id="it2" value="{{rowData.type}}"></oj-input-text>
+        </oj-bind-if>
+      </template>
+
+      <template slot="priorityTemplate" data-oj-as="cell">
+        <oj-bind-if test='[[cell.mode=="navigation"]]'>
+          <oj-bind-text value="[[cell.data]]"></oj-bind-text>
+        </oj-bind-if>
+
+
+
+        <oj-bind-if test='[[cell.mode=="edit"]]'>
+          <oj-select-one id="so1" aria-label="type" value='{{rowData.priority}}'>
+            <oj-option value="High">High</oj-option>
+            <oj-option value="Medium">Medium</oj-option>
+            <oj-option value="Low">Low</oj-option>
+          </oj-select-one>
+        </oj-bind-if>
+      </template>
+
+      <template slot="actionTemplate" data-oj-as="cell">
+        <oj-bind-if test='[[cell.mode=="navigation"]]'>
+          <oj-button on-oj-action="[[handleUpdate]]" style="width:5em;margin-bottom: 0px;"><span>Edit</span></oj-button>
+        </oj-bind-if>
+
+        <oj-bind-if test='[[cell.mode=="edit"]]'>
+          <oj-button on-oj-action="[[handleDone]]" style="width:5em;margin-bottom: 0px;"><span>Save</span></oj-button>
+        </oj-bind-if>
+      </template>
+
+    </oj-table>
+  </div>
+</div>

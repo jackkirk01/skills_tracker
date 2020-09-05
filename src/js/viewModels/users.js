@@ -5,17 +5,19 @@
 /*
  * Your user ViewModel code goes here
  */
-define(['ojs/ojcore', 'knockout', 'jquery', 'factories/UserFactory', 'ojs/ojcollectiondataprovider', 'ojs/ojarraydataprovider', 'ojs/ojformlayout', 'ojs/ojinputtext',
+define(['ojs/ojcore', 'knockout', 'jquery', 'factories/UserFactory', 'ojs/ojcollectiondataprovider', 'ojs/ojarraydataprovider', 'ojs/ojlistdataproviderview', 'ojs/ojformlayout', 'ojs/ojinputtext',
         'ojs/ojknockout', 'ojs/ojdatagrid', 'ojs/ojcollectiondatagriddatasource', 'ojs/ojtable', 'ojs/ojdialog', 'ojs/ojbutton'],
- function(oj, ko, $, UserFactory, CollectionDataProvider, ArrayDataProvider) {
+ function(oj, ko, $, UserFactory, CollectionDataProvider, ArrayDataProvider, ListDataProviderView) {
   
     function UserViewModel() {
       
       var self = this;
 
+      self.filter = ko.observable();
+
       self.apiLoaded = ko.observable(false);
 
-      self.userDatasource = ko.observable();
+      // self.userDatasource = ko.observable();
 
       self.userCollection = UserFactory.createUserCollection();
 
@@ -27,22 +29,59 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'factories/UserFactory', 'ojs/ojcoll
       self.selectedUserUpdatedDate = ko.observable();
       self.selectedUserSkills = ko.observableArray();
 
-      self.userDatasource(new oj.CollectionDataGridDataSource(
-        self.userCollection,
-        {
-          rowHeader: 'userId', 
-          columns: [
-            'firstName',
-            'surname',
-            'skillsAdded',
-            'skills'
-          ]
-        }
-      ));
+      self.userDatasource = ko.computed(function () {
+        var filterRegEx = new RegExp(self.filter(), 'i');
+        var filterCriterion = {
+          op: '$or',
+          criteria: [{ op: '$regex', value: { userId: filterRegEx } },
+                    { op: '$regex', value: { firstName: filterRegEx } },
+                    { op: '$regex', value: { surname: filterRegEx } } ]
+        };
+        arrayDataProvider = new CollectionDataProvider(self.userCollection, { keyAttributes: 'userId' });
+        return new ListDataProviderView(arrayDataProvider, { filterCriterion: filterCriterion });
+      }, this);
+
+      // self.userDatasource(new oj.CollectionDataGridDataSource(
+      //   self.userCollection,
+      //   {
+      //     rowHeader: 'userId', 
+      //     columns: [
+      //       'firstName',
+      //       'surname',
+      //       'skillsAdded',
+      //       'skills'
+      //     ]
+      //   }
+      // ));
 
       self.dataProvider = ko.observable();
       self.dataProvider(new CollectionDataProvider(self.userCollection, { keyAttributes:'userId' }));
       self.userSkillsDataProvider = new ArrayDataProvider(self.selectedUserSkills);
+
+      self.handleValueChanged = function () {
+        self.filter(document.getElementById('filter').rawValue);
+      }
+
+      self.highlightingCellRenderer = function (context) {
+        let field = null;
+        if (context.columnIndex === 0) {
+          field = 'userId';
+        } else if (context.columnIndex === 1) {
+          field = 'firstName';
+        } else if (context.columnIndex === 2) {
+          field = 'surname';
+        }
+        let data = context.row[field].toString();
+        const filterString = self.filter();
+        if (filterString && filterString.length > 0) {
+          const index = data.toLowerCase().indexOf(filterString.toLowerCase());
+          if (index > -1) {
+            const highlightedSegment = data.substr(index, filterString.length);
+            data = data.substr(0, index) + '<b>' + highlightedSegment + '</b>' + data.substr(index + filterString.length, data.length - 1);
+          }
+        }
+        context.cellContext.parentElement.innerHTML = data;
+      }
 
       self.getCellTemplate = function(cellContext) {
 
@@ -80,6 +119,26 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'factories/UserFactory', 'ojs/ojcoll
         newUser.set('surname', self.selectedUserSurname());
         newUser.save();
       }
+
+      self.columnArray = 
+      [{headerText: "ID",
+        field: "userId",
+        renderer: self.highlightingCellRenderer },
+        {headerText: "First Name", 
+        field: "firstName",
+        headerClassName: "oj-sm-only-hide",
+        className: "oj-sm-only-hide",
+        resizable: "enabled",
+        renderer: self.highlightingCellRenderer },
+        {headerText: "Surname", 
+        field: "surname",
+        resizable: "enabled",
+        renderer: self.highlightingCellRenderer },
+      {headerText: "Skills Added Date", 
+        field: "lastUpdatedSkills",
+        headerClassName: "oj-sm-only-hide",
+        className: "oj-sm-only-hide",
+        resizable: "enabled"}];
 
       self.isEmptyInverted = function(param) {
         // Return is inverted due to being used by disabled

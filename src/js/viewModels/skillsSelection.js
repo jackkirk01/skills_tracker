@@ -2,7 +2,7 @@
 define(['accUtils', 'knockout', 'ojs/ojbootstrap', 'ojs/ojcollectiondataprovider', 'ojs/ojarraydataprovider', 'ojs/ojlistdataproviderview', 'factories/SkillFactory', 'factories/UserFactory', 'ojs/ojconverter-number', 'ojs/ojdatacollection-utils', 'ojs/ojknockout', 'ojs/ojlistviewdnd', 'ojs/ojtable', 'ojs/ojselectcombobox', 'ojs/ojinputtext', 'ojs/ojbutton', 'ojs/ojselectsingle'],
   function (accUtils, ko, Bootstrap, CollectionDataProvider, ArrayDataProvider, ListDataProviderView, SkillFactory, UserFactory, NumberConverter, DataCollectionEditUtils) {
 
-    function AboutViewModel() {
+    function SkillsSelectionViewModel() {
       var self = this;
       self.editRow = ko.observable();
       var proficiencies = [{ value: 'introductory', label: 'Introductory' },
@@ -28,6 +28,7 @@ define(['accUtils', 'knockout', 'ojs/ojbootstrap', 'ojs/ojcollectiondataprovider
       self.skillsCollection().fetch({
         success: function (collection) {
           oj.Logger.error(collection.length);
+          oj.Logger.error(collection.models[0]);
               
           UserFactory.createUserModel().fetch({
             success: function (model) {
@@ -245,6 +246,6 @@ define(['accUtils', 'knockout', 'ojs/ojbootstrap', 'ojs/ojcollectiondataprovider
      * return a constructor for the ViewModel so that the ViewModel is constructed
      * each time the view is displayed.
      */
-    return AboutViewModel;
+    return SkillsSelectionViewModel;
   }
 );

@@ -33,12 +33,13 @@ define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/
        // Router setup
        self.router = Router.rootInstance;
        self.router.configure({
+         'dashboard': {label:'Dashboard'},
          'skills': {label: 'Skills', isDefault: true},
          'users': {label: 'Users'},
-         'home': {label: 'Home'},
-         'about': {label: 'About'},
+         'test': {label: 'Test'},
+         'skillsSelection': {label: 'Select Skills'},
          'customers': {label: 'Customers'},
-         'dashboard': {label:'Dashboard'}
+         'incidents': {label: 'Incidents'},
        });
       Router.defaults['urlAdapter'] = new Router.urlParamAdapter();
 
@@ -54,24 +55,20 @@ define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/
 
       // Navigation setup
       var navData = [
-      {name: 'Home', id: 'home',
+      {name: 'Dashboard', id: 'dashboard',
        iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-chart-icon-24'},
-      {name: 'Skills', id: 'skills',
+      {name: 'Edit Skills', id: 'skills',
        iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-fire-icon-24'},
       {name: 'Users', id: 'users',
        iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-people-icon-24'},
-      {name: 'About', id: 'about',
-       iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-info-icon-24'},
-      {name: 'Dashboard', id: 'dashboard',
-       iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-info-icon-24'},
-      {name: 'Customer', id: 'customers',
+      {name: 'Select Skills', id: 'skillsSelection',
        iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-info-icon-24'}
       ];
       self.navDataProvider = new ArrayDataProvider(navData, {keyAttributes: 'id'});
 
       // Header
       // Application Name used in Branding Area
-      self.appName = ko.observable("App Name");
+      self.appName = ko.observable("Capgemini - Skills tracker");
       // User Info used in Global Navigation area
       self.userLogin = ko.observable("john.hancock@oracle.com");
 

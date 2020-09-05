@@ -4,7 +4,7 @@ function (oj) {
   var SkillFactory = {
 
       skillUri: 'data/skills.json',
-      // skillUri: 'http://140.238.89.200:8080/skills-tracker/v1/skills/',
+    //   skillUri: 'http://140.238.89.200:8080/skills-tracker/v1/skills/',
     //   skillUri: 'https://private-532dfa-skillstracker.apiary-mock.com/skills-tracker/v1/skills/',
       skillsInUseUri: 'data/skillsInUse.json',
       skillByIdUri: 'data/skill.json',
@@ -13,7 +13,7 @@ function (oj) {
 
           var Skill = oj.Model.extend({
               urlRoot: this.skillByIdUri, 
-            //   parse: function(response) {
+              parse: function(response) {
 
             //     var iPaas = "N";
             //     var modernApps = "N";
@@ -31,17 +31,18 @@ function (oj) {
             //     //     devOps = "Y";   
             //     // }
 
-            //     return {
-            //         // "id": response.id,
-            //         // "name": response.name,
-            //         // "type": response.type,
-            //         // "iPaas": iPaas,
-            //         // "ModernApps": modernApps,
-            //         // "DevOps": devOps,
-            //         // "priority": response.priority
-            //     };
+                return {
+                    "id": response.id,
+                    "name": response.name,
+                    "type": response.type,
+                    // "iPaas": iPaas,
+                    // "ModernApps": modernApps,
+                    // "DevOps": devOps,
+                    "priority": response.priority,
+                    "users": response.users
+                };
 
-            //   },
+              },
               idAttribute: "id"
           });
 

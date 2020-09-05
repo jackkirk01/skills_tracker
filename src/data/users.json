@@ -42,7 +42,7 @@
             "proficiency":"INTRODUCTORY"
          },
          {
-            "skillId":"1",
+            "skillId":"2",
             "name":"Java EE",
             "type":"Base Language",
             "priority":"High",

@@ -1,305 +1,341 @@
 /**
- * @license
- * Copyright (c) 2014, 2019, Oracle and/or its affiliates.
+ * Copyright (c) 2014, 2018, Oracle and/or its affiliates.
  * The Universal Permissive License (UPL), Version 1.0
- * @ignore
  */
 /*
  * Your dashboard ViewModel code goes here
  */
-define(['accUtils', 'knockout', 'ojs/ojbootstrap', 'ojs/ojarraydataprovider', 'ojs/ojlistdataproviderview', 'ojs/ojconverter-number', 'ojs/ojconverter-datetime', 'ojs/ojconverterutils-i18n', 'ojs/ojvalidator-numberrange', 'ojs/ojdatacollection-utils', 'ojs/ojknockout', 'ojs/ojinputtext',
-  'ojs/ojdatetimepicker', 'ojs/ojselectcombobox', 'ojs/ojcheckboxset', 'ojs/ojtable'],
-  function (accUtils, ko, Bootstrap, ArrayDataProvider, ListDataProviderView, NumberConverter, DateTimeConverter, ConverterUtils, NumberRangeValidator, DataCollectionEditUtils) {
-
+define(['ojs/ojcore', 'knockout', 'jquery', 'factories/UserFactory', 'factories/SkillFactory', 'ojs/ojarraydataprovider', 'ojs/ojconverter-number', 'ojs/ojtagcloud',
+        'ojs/ojknockout', 'ojs/ojpictochart', 'ojs/ojmodel', 'ojs/ojgauge', 'ojs/ojlabel', 'ojs/ojchart', 'ojs/ojselectsingle','ojs/ojlegend'],
+ function(oj, ko, $, UserFactory, SkillFactory, ArrayDataProvider, NumberConverter) {
+  
     function DashboardViewModel() {
+
       var self = this;
 
-      var deptArray = [
-          {
-            "id": "1",
-            "name": "Java SE",
-            "type": "Base Language",
-            "stream": [
-              "iPaas",
-              "Modern Apps"
-            ],
-            "priority": "High"
-          },
-          {
-            "id": "2",
-            "name": "Java EE",
-            "type": "Web Language",
-            "stream": [
-              "iPaas",
-              "Modern Apps"
-            ],
-            "priority": "High"
-          },
-          {
-            "id": "3",
-            "name": "API Management",
-            "type": "Product",
-            "stream": [
-              "iPaas"
-            ],
-            "priority": "High"
-          },
-          {
-            "id": "4",
-            "name": "Data Integration",
-            "type": "Unknown",
-            "stream": [
-              "iPaas"
-            ],
-            "priority": "High"
-          },
-          {
-            "id": "5",
-            "name": "Oracle Integration Cloud Service",
-            "type": "Product",
-            "stream": [
-              "iPaas"
-            ],
-            "priority": "High"
-          },
-          {
-            "id": "6",
-            "name": "Oracle Robotic Process Automation",
-            "type": "Product",
-            "stream": [
-              "iPaas"
-            ],
-            "priority": "High"
-          },
-          {
-            "id": "7",
-            "name": "Kafka",
-            "type": "Product",
-            "stream": [
-              "iPaas"
-            ],
-            "priority": "High"
-          },
-          {
-            "id": "8",
-            "name": "Node JS",
-            "type": "Language",
-            "stream": [
-              "Modern Apps"
-            ],
-            "priority": "High"
-          },
-          {
-            "id": "9",
-            "name": "Microservices",
-            "type": "Web Services",
-            "stream": [
-              "Modern Apps"
-            ],
-            "priority": "High"
-          },
-          {
-            "id": "10",
-            "name": "Oracle JET",
-            "type": "JavaScript Toolkit",
-            "stream": [
-              "Modern Apps"
-            ],
-            "priority": "High"
-          },
-          {
-            "id": "11",
-            "name": "Oracle Application Container Cloud Service",
-            "type": "Product",
-            "stream": [
-              "Modern Apps"
-            ],
-            "priority": "High"
-          },
-          {
-            "id": "12",
-            "name": "Blockchain",
-            "type": "Concept",
-            "stream": [
-              "Modern Apps"
-            ],
-            "priority": "Low"
-          }
-        ];
+      self.apiLoaded = ko.observable(false);
 
-        self.columnArray =
-        [{
-          field: 'id',
-          headerText: "ID",
-          headerStyle: "min-width: 8em; max-width: 8em; width: 8em",
-          headerClassName: "oj-helper-text-align-end",
-          style: "min-width: 8em; max-width: 8em; width: 8em",
-          className: "oj-helper-text-align-end oj-read-only",
-          template: "idTemplate",
-          renderer: self.highlightingCellRenderer
-        },
-        {
-          field: "name",
-          headerText: "Name",
-          headerStyle: "min-width: 15em; max-width: 15em; width: 15em",
-          style: "min-width: 15em; max-width: 15em; width: 15em",
-          renderer: self.highlightingCellRenderer,
-          template: "nameTemplate"
-        },
-        {
-          field: "type",
-          headerText: "Type",
-          headerStyle: "min-width: 12em; max-width: 12em; width: 12em",
-          headerClassName: "oj-helper-text-align-end",
-          style: "min-width: 12em; max-width: 12em; width: 12em",
-          className: "oj-helper-text-align-end",
-          template: "typeTemplate",
-          renderer: self.highlightingCellRenderer
-        },
-        {
-          field: "priority",
-          headerText: "Priority",
-          headerStyle: "min-width: 10em; max-width: 10em; width: 10em",
-          style: "min-width: 10em; max-width: 10em; width: 10em",
-          template: "priorityTemplate",
-          renderer: self.highlightingCellRenderer
-        },
-        {
-          headerText: "Action",
-          headerStyle: "min-width: 10em; max-width: 10em; width: 10em; text-align: center;",
-          style: "min-width: 10em; max-width: 10em; width: 10em; padding-top: 0px; padding-bottom: 0px; text-align: center;",
-          template: "actionTemplate"
-        }];
-
-        self.filter = ko.observable();
-
-        self.highlightingCellRenderer = function (context) {
-          var field = null;
-          if (context.columnIndex === 0) {
-            field = 'id';
-          } else if (context.columnIndex === 1) {
-            field = 'name';
-          } else if (context.columnIndex === 2) {
-            field = 'type';
-          } else if (context.columnIndex === 3) {
-            field = 'priority';
-          }
-          var data = context.row[field].toString();
-          var filterString = self.filter();
-          if (filterString && filterString.length > 0) {
-            var index = data.toLowerCase().indexOf(filterString.toLowerCase());
-            if (index > -1) {
-              var highlightedSegment = data.substr(index, filterString.length);
-              data = data.substr(0, index) + '<b>' + highlightedSegment + '</b>' + data.substr(index + filterString.length, data.length - 1);
-            }
-          }
-          context.cellContext.parentElement.innerHTML = data;
-        }
-        self.deptObservableArray = ko.observableArray(deptArray);
-
-        self.dataprovider = ko.computed(function () {
-          var filterRegEx = new RegExp(self.filter(), 'i');
-          var filterCriterion = {
-            op: '$or',
-            criteria: [{ op: '$regex', value: { id: filterRegEx } },
-            { op: '$regex', value: { name: filterRegEx } },
-            { op: '$regex', value: { type: filterRegEx } },
-            { op: '$regex', value: { priority: filterRegEx } }]
-          };
-          var arrayDataProvider = new ArrayDataProvider(self.deptObservableArray, { keyAttributes: 'id' });
-          return new ListDataProviderView(arrayDataProvider, { filterCriterion: filterCriterion });
-        }, this);
-
-      self.handleValueChanged = function () {
-        self.filter(document.getElementById('filter').rawValue);
-      }
-
-      self.clearClick = function (event) {
-        self.filter('');
-        return true;
-      }
-
-      // self.dataprovider = new ArrayDataProvider(self.deptObservableArray, { keyAttributes: 'id' });
-
-      // // NUMBER AND DATE CONVERTER ////
-      self.numberConverter = new NumberConverter.IntlNumberConverter();
-      self.dateConverter = new DateTimeConverter.IntlDateTimeConverter({ year: '2-digit', month: '2-digit', day: '2-digit' });
-
-      var rangeValidator = new NumberRangeValidator({ min: 100, max: 500 });
-      self.validators = [rangeValidator];
-
-      self.editRow = ko.observable();
-
-      self.beforeRowEditListener = function (event) {
-        var key = event.detail.rowContext.status.rowKey;
-        self.dataprovider.fetchByKeys({ keys: [key] }).then(function (fetchResult) {
-          self.rowData = {};
-          Object.assign(self.rowData, fetchResult.results.get(key).data);
-        }.bind(this));
-      }
-
-      self.beforeRowEditEndListener = function (event) {
-        // the DataCollectionEditUtils.basicHandleRowEditEnd is a utility method
-        // which will handle validation of editable components and also handle
-        // canceling the edit
-        var detail = event.detail;
-        if (detail.cancelEdit == true) {
-          return;
-        }
-        if (DataCollectionEditUtils.basicHandleRowEditEnd(event, detail) === false) {
-          event.preventDefault();
+      self.skillsCollection = null;
+      self.userCollection = null;
+      self.totalUsers = ko.observable(0);
+      self.totalSkills = ko.observable();
+      self.tagCloudDataProvider = ko.observable();
+      self.usersWithHighPrioritySkills = ko.observable(0);
+      this.highPrioritySkillPercentage = ko.computed(function () {
+        if(self.usersWithHighPrioritySkills() == 0 && self.totalUsers() == 0) {
+          return 0;
         } else {
-          deptArray.splice(detail.rowContext.status.rowIndex, 1, self.rowData);
-          // document.getElementById('rowDataDump').value = (JSON.stringify(self.rowData));
+          oj.Logger.error(self.usersWithHighPrioritySkills());
+          return self.usersWithHighPrioritySkills()/self.totalUsers()*100
         }
+      }, this);
+      self.totalUsersUpdatedRecently = ko.observable(0);
+      this.recentlyUpdatedSkillsPercentage = ko.computed(function () {
+        if(self.totalUsersUpdatedRecently() == 0 && self.totalUsers() == 0) {
+          return 0;
+        } else {
+          return (self.totalUsersUpdatedRecently()/self.totalUsers()*100).toFixed(2)
+        }
+      }, this);
+      self.skillOptions = ko.observableArray();
+      self.skillSelectorDP = ko.observable();
+      self.skillSelectorValue = ko.observable(1);
+      self.mostUsedSkills = ko.observableArray();
+      self.chartData = ko.observableArray();
+      self.pieChartLabel = ko.observable();
+
+      self.masterSkillArray = ko.observableArray();
+      self.highPrioritySkills;
+      self.mediumPrioritySkills;
+      self.lowPrioritySkills;
+
+      self.tagCloudLegend = [{
+          text: "High",
+          color:"rgb(237, 102, 71)",
+        },
+        {
+          text: "Medium",
+          color:"rgb(250, 213, 92)",
+        },
+        {
+          text: "Low",
+          color:"rgb(104, 193, 130)",
+        }
+      ]
+      self.legendDP = new ArrayDataProvider(self.tagCloudLegend, {keyAttributes: 'text'});
+
+
+      this.customConverter = {style: {color:'white'}, position: 'center', rendered: 'on', converter: new NumberConverter.IntlNumberConverter({ style: 'percent', pattern: '#,##%' }) };
+
+      this.thresholdValues = [{ max: 33 }, { max: 67 }, {}];
+
+      var busyContext;
+      var resolve;
+
+      self.skillModel = ko.observable();
+
+      self.skillSelectorChanged = function (event) {
+
+        self.pieChartLabel(self.skillOptions().find(skill => skill.value === parseInt(event.detail.value)).label);
+        
+        self.skillModel(SkillFactory.createSkillModel());
+
+        self.skillModel().fetch({
+          success: function(model, response, options) {
+
+            var introductoryCount = 0;
+            var progressingCount = 0;
+            var proficientCount = 0;
+            var experiencedCount = 0;
+            var expertCount = 0;
+
+            model.get("users").forEach(user => {
+      
+              switch(user.proficiency) {
+                case "INTRODUCTORY":
+                  introductoryCount++
+                  break;
+                case "PROGRESSING":
+                  progressingCount++
+                  break;
+                case "PROFICIENT":
+                  proficientCount++
+                  break;
+                case "EXPERIENCED":
+                  experiencedCount++
+                  break;
+                case "EXPERT":
+                  expertCount++
+                  break;
+              }
+            })
+
+            self.chartData([
+              {
+                proficiency:"Introductory",
+                total:introductoryCount,
+                group:self.skillModel().get("name")
+              },
+              {
+                proficiency:"Progressing",
+                total:progressingCount,
+                group:self.skillModel().get("name")
+              },
+              {
+                proficiency:"Proficient",
+                total:proficientCount,
+                group:self.skillModel().get("name")
+              },
+              {
+                proficiency:"Experienced",
+                total:experiencedCount,
+                group:self.skillModel().get("name")
+              },
+              {
+                proficiency:"Expert",
+                total:expertCount,
+                group:self.skillModel().get("name")
+              }
+            ]);
+          }
+        });
       }
 
-      self.handleUpdate = function (event, context) {
-        self.editRow({ rowKey: context.key });
+      this.donutDataProvider = new ArrayDataProvider(self.chartData, {keyAttributes: 'id'});
+
+      self.tagCloudDataProvider(new ArrayDataProvider(self.mostUsedSkills, {keyAttributes: 'name'}));
+      
+      function compare(a, b) {
+        // Use toUpperCase() to ignore character casing
+        const bandA = a.total;
+        const bandB = b.total;
+      
+        let comparison = 0;
+        if (bandA > bandB) {
+          comparison = -1;
+        } else if (bandA < bandB) {
+          comparison = 1;
+        }
+        return comparison;
       }
 
-      // eslint-disable-next-line no-unused-vars
-      self.handleDone = function (event, context) {
-        self.editRow({ rowKey: null });
-      }
-      // Below are a set of the ViewModel methods invoked by the oj-module component.
-      // Please reference the oj-module jsDoc for additional information.
+      self.tooltipFunction = function(dataContext) {
+        return {'insert':dataContext.name};
+      };
+      
+      self.loadSkillData = function(skill) {
 
-      /**
-       * Optional ViewModel method invoked after the View is inserted into the
-       * document DOM.  The application can put logic that requires the DOM being
-       * attached here.
-       * This method might be called multiple times - after the View is created
-       * and inserted into the DOM and after the View is reconnected
-       * after being disconnected.
-       */
-      self.connected = function () {
-        accUtils.announce('Dashboard page loaded.');
-        document.title = "Dashboard";
-        // Implement further logic if needed
+        
+        var skilledUsersArray = skill.get('users');
+        
+        var set = [];
+        
+        for (var i = 0; i < skilledUsersArray.length; i++) {
+
+          var color = "#C0C0C0";
+
+          switch (skilledUsersArray[i].proficiency) {
+            case 'INTRODUCTORY':
+              color = 'rgb(35, 123, 177)'
+              ordering = 5;
+              break;
+            case 'PROGRESSING':
+              color = 'rgb(104, 193, 130)'
+              ordering = 4;
+              break;
+            case 'PROFICIENT':
+              color = 'rgb(250, 213, 92)'
+              ordering = 3;
+              break;
+            case 'EXPERIENCED':
+              color = 'rgb(237, 102, 71)'
+              ordering = 2;
+              break;
+            case 'EXPERT':
+              color = 'rgb(133, 97, 200)'
+              ordering = 1;
+              break;
+          }
+          
+          set.push({
+            name: skilledUsersArray[i].firstName + " " + skilledUsersArray[i].surname + ": " + skilledUsersArray[i].proficiency,
+            shape: 'human',
+            color: color,
+            order: ordering
+          });
+          
+        }
+
+        set.push({
+          name: '',
+          shape: 'human',
+          color: 'rgb(192, 192, 192)',
+          count: self.userCollection.size() - skilledUsersArray.length
+        });
+
+        return set.sort((a, b) => parseFloat(a.order) - parseFloat(b.order));
+
       };
 
-      /**
-       * Optional ViewModel method invoked after the View is disconnected from the DOM.
-       */
-      self.disconnected = function () {
-        // Implement if needed
+      self.loadSkillPercent = function(skilledUsersArray) {
+
+        return Math.round((100 / self.userCollection.size()) * skilledUsersArray.length) + "%";
+
       };
 
-      /**
-       * Optional ViewModel method invoked after transition to the new View is complete.
-       * That includes any possible animation between the old and the new View.
-       */
-      self.transitionCompleted = function () {
-        // Implement if needed
+      this.getTooltip = function (context) {
+        var tooltip;
+        if (context.componentElement.id === 'gaugeWithReferenceLines')
+          tooltip = 'Value: ' + context.label + '<br>Reference Lines: Low 33, Medium 67, High 100';
+        else
+          tooltip = 'Value: ' + context.label + '<br>Thresholds: Low 33, Medium 67, High 100';
+        return { insert: tooltip };
+      }
+
+      self.connected = function(info) {
+
+        self.apiLoaded(false);
+
+        var chartContainer = document.getElementById("pictoContainer");
+        busyContext = oj.Context.getContext(chartContainer).getBusyContext();
+        resolve = busyContext.addBusyState({"description": "Loading API Data"});
+        self.masterSkillArray.removeAll();
+        self.mostUsedSkills([]);
+        self.usersWithHighPrioritySkills(0);
+        skillArray = [];        
+        self.skillList = SkillFactory.createSkillCollection();
+        self.userCollection = UserFactory.createUserCollection();
+        
+        self.skillList.fetch({
+          success: function(collection, response, options) {
+
+            self.totalSkills(collection.size());
+
+            collection.each(skill => self.skillOptions.push({
+                value: skill.get("id"),
+                label: skill.get("name"),
+                total: collection.size()
+              })
+            );
+
+            self.skillSelectorDP(new ArrayDataProvider(self.skillOptions(), { keyAttributes: 'value' }));
+
+            self.highPrioritySkills = self.skillList.models.filter(skill => skill.get("priority").toUpperCase() === 'HIGH');
+            self.mediumPrioritySkills = self.skillList.models.filter(skill => skill.get("priority").toUpperCase() === 'MEDIUM');
+            self.lowPrioritySkills = self.skillList.models.filter(skill => skill.get("priority").toUpperCase() === 'LOW');
+
+            self.skillList.models.sort(function(a, b) {
+              if (a.get('users').length > b.get('users').length) {
+                return -1;
+              } else if (a.get('users').length == b.get('users').length) {
+                return 0;
+              } else {
+                return 1;
+              }
+            }).slice(0,10).forEach(skill => {
+
+              var color;
+
+              switch (skill.get('priority').toUpperCase()) {
+                case 'HIGH' :
+                  color = 'rgb(237, 102, 71)'
+                  break;
+                case 'MEDIUM' :
+                  color = 'rgb(250, 213, 92)'
+                  break;
+                case 'LOW' :
+                  color = 'rgb(104, 193, 130)'
+                  break;
+                }
+
+              self.mostUsedSkills.push({
+                name: skill.get('name'),
+                total: skill.get('users').length,
+                color: color
+            })});
+
+            self.skillSelectorValue("1");
+          }
+        });
+
+        self.userCollection.fetch({
+          success: function(collection, response, options) {
+            self.totalUsers(self.userCollection.size());
+            var sixMonthsAgoDate = new Date();
+            sixMonthsAgoDate.setMonth(sixMonthsAgoDate.getMonth() - 6);
+
+            collection.each(user => {
+              
+              if(Date.parse(user.get("lastUpdatedSkills")) > sixMonthsAgoDate) {
+                self.totalUsersUpdatedRecently(self.totalUsersUpdatedRecently() + 1);
+              }
+
+              var userSkills = user.get("skills");
+
+              if (userSkills) {
+                for(skill of userSkills) {
+                  oj.Logger.error(skill);
+                  if(skill.priority.toUpperCase() === "HIGH") {
+                    self.usersWithHighPrioritySkills(self.usersWithHighPrioritySkills() + 1)
+                    break;
+                  }
+
+                }
+
+              }  
+            })
+
+            resolve();
+
+            busyContext.whenReady().then(function() { 
+              self.apiLoaded(true);
+            });
+
+          }
+        });
+
       };
     }
-
-    /*
-     * Returns an instance of the ViewModel providing one instance of the ViewModel. If needed,
-     * return a constructor for the ViewModel so that the ViewModel is constructed
-     * each time the view is displayed.
-     */
-    return DashboardViewModel;
+    return new DashboardViewModel();
   }
 );
