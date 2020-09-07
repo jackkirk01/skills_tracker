@@ -34,8 +34,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'factories/UserFactory', 'ojs/ojcoll
         var filterCriterion = {
           op: '$or',
           criteria: [{ op: '$regex', value: { userId: filterRegEx } },
-                    { op: '$regex', value: { firstName: filterRegEx } },
-                    { op: '$regex', value: { surname: filterRegEx } } ]
+                    { op: '$regex', value: { fullName: filterRegEx } }]
         };
         arrayDataProvider = new CollectionDataProvider(self.userCollection, { keyAttributes: 'userId' });
         return new ListDataProviderView(arrayDataProvider, { filterCriterion: filterCriterion });
@@ -67,10 +66,11 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'factories/UserFactory', 'ojs/ojcoll
         if (context.columnIndex === 0) {
           field = 'userId';
         } else if (context.columnIndex === 1) {
-          field = 'firstName';
-        } else if (context.columnIndex === 2) {
-          field = 'surname';
-        }
+          field = 'fullName';
+        } 
+        // else if (context.columnIndex === 2) {
+        //   field = 'surname';
+        // }
         let data = context.row[field].toString();
         const filterString = self.filter();
         if (filterString && filterString.length > 0) {
@@ -124,16 +124,19 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'factories/UserFactory', 'ojs/ojcoll
       [{headerText: "ID",
         field: "userId",
         renderer: self.highlightingCellRenderer },
-        {headerText: "First Name", 
-        field: "firstName",
-        headerClassName: "oj-sm-only-hide",
-        className: "oj-sm-only-hide",
-        resizable: "enabled",
+      {headerText: "Name",
+        field: "fullName",
         renderer: self.highlightingCellRenderer },
-        {headerText: "Surname", 
-        field: "surname",
-        resizable: "enabled",
-        renderer: self.highlightingCellRenderer },
+      // {headerText: "First Name", 
+      //   field: "firstName",
+      //   headerClassName: "oj-sm-only-hide",
+      //   className: "oj-sm-only-hide",
+      //   resizable: "enabled",
+      //   renderer: self.highlightingCellRenderer },
+      //   {headerText: "Surname", 
+      //   field: "surname",
+      //   resizable: "enabled",
+      //   renderer: self.highlightingCellRenderer },
       {headerText: "Skills Added Date", 
         field: "lastUpdatedSkills",
         headerClassName: "oj-sm-only-hide",

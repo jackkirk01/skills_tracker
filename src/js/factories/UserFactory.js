@@ -10,26 +10,18 @@ function (oj) {
 
           var User = oj.Model.extend({
               urlRoot: this.userByIdUri,
-            //   parse: function(response) {
+              parse: function(response) {
+                
+                return {
+                    "userId": response.userId,
+                    "firstName": response.firstName,
+                    "surname": response.surname,
+                    "fullName": response.firstName + " " + response.surname,
+                    "skills": response.skills,
+                    "lastUpdatedSkills": response.lastUpdatedSkills
+                };
 
-            //     var skillsAdded;
-
-            //     if (response.skills && response.skills.length > 0) {
-            //         skillsAdded = "Y";
-            //     } else {
-            //         skillsAdded = "N";
-            //     }
-
-            //     return {
-            //         "id": response.id,
-            //         "firstName": response.firstName,
-            //         "lastName": response.lastName,
-            //         "stream": response.stream,
-            //         "skills": response.skills,
-            //         "skillsAdded": skillsAdded
-            //     };
-
-            //   },
+              },
               idAttribute: "userId"
           });
 

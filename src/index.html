@@ -71,34 +71,51 @@
           <div class="oj-flex-bar-middle oj-sm-align-items-baseline">
             <h1 class="oj-sm-only-hide oj-web-applayout-header-title" title="Application Name" style="margin-left: 10px; margin-top: 10px; font-size: 24px;"><oj-bind-text value="[[appName]]"></oj-bind-text></h1>
           </div>
-          <div class="oj-flex-bar-end">
-            <!-- Responsive Toolbar -->
-            <oj-toolbar>
-              <oj-menu-button id="userMenu" display="[[smScreen() ? 'icons' : 'all']]" chroming="half">
-                <span><oj-bind-text value="[[userLogin]]"></oj-bind-text></span>
-                <span slot="endIcon" :class="[[{'oj-icon demo-appheader-avatar': smScreen(), 'oj-component-icon oj-button-menu-dropdown-icon': !smScreen()}]]"></span>
-                <oj-menu id="menu1" slot="menu" style="display:none">
-                  <oj-option id="pref" value="pref">Preferences</oj-option>
-                  <oj-option id="help" value="help">Help</oj-option>
-                  <oj-option id="about" value="about">About</oj-option>
-                  <oj-option id="out" value="out">Sign Out</oj-option>
-                </oj-menu>
-              </oj-menu-button>
-            </oj-toolbar>
+          <oj-bind-if test=[[loggedIn()]]>
+            <div class="oj-flex-bar-end">
+              <oj-toolbar>
+                <oj-menu-button id="userMenu" display="[[smScreen() ? 'icons' : 'all']]" chroming="half">
+                  <span><oj-bind-text value="[[userLogin]]"></oj-bind-text></span>
+                  <!-- <span slot="endIcon" :class="[[{'oj-icon demo-appheader-avatar': smScreen(), 'oj-component-icon oj-button-menu-dropdown-icon': !smScreen()}]]"></span>
+                  <oj-menu id="menu1" slot="menu" style="display:none">
+                    <oj-option id="pref" value="pref">Preferences</oj-option>
+                    <oj-option id="help" value="help">Help</oj-option>
+                    <oj-option id="about" value="about">About</oj-option>
+                    <oj-option id="out" value="out">Sign Out</oj-option>
+                  </oj-menu> -->
+                </oj-menu-button>
+              </oj-toolbar>
+            </div>
+          </oj-bind-if>
+        </div>
+        <oj-bind-if test=[[loggedIn()]]>
+          <div role="navigation" class="oj-web-applayout-max-width oj-web-applayout-navbar">
+            <oj-navigation-list id="navList" data="[[navDataProvider]]"
+                                :class="[[{'oj-md-condense oj-md-justify-content-flex-end': !smScreen()}]]"
+                                display="[[smScreen() ? 'icons' : 'all']]"
+                                edge="top"
+                                item.renderer="[[KnockoutTemplateUtils.getRenderer('navTemplate', true)]]"
+                                selection="{{router.stateId}}">
+            </oj-navigation-list>
           </div>
-        </div>
-        <div role="navigation" class="oj-web-applayout-max-width oj-web-applayout-navbar">
-          <oj-navigation-list id="navList" data="[[navDataProvider]]"
-                              :class="[[{'oj-md-condense oj-md-justify-content-flex-end': !smScreen()}]]"
-                              display="[[smScreen() ? 'icons' : 'all']]"
-                              edge="top"
-                              item.renderer="[[KnockoutTemplateUtils.getRenderer('navTemplate', true)]]"
-                              selection="{{router.stateId}}">
-          </oj-navigation-list>
-        </div>
+        </oj-bind-if>
       </header>
-      <oj-module role="main" class="oj-web-applayout-max-width oj-web-applayout-content" config="[[moduleConfig]]">
-      </oj-module>
+      <oj-bind-if test=[[loggedIn()]]>
+        <oj-module role="main" class="oj-web-applayout-max-width oj-web-applayout-content" config="[[moduleConfig]]">
+        </oj-module>
+      </oj-bind-if>
+      <oj-bind-if test=[[!loggedIn()]]>
+        <div style=" margin-left:auto;margin-right:auto;margin-top:auto;margin-bottom:auto;">
+          <fieldset style="border:1px #b0b0b0 solid">
+            <legend style="border:1px #b0b0b0 solid;padding:0.2em 0.8em">Skills Tracker Login</legend>
+            <oj-form-layout max-columns="1" direction="row">
+              <oj-input-text label-hint="Username" raw-value="{{userLogin}}"></oj-input-text>
+              <oj-input-password label-hint="password" type="Password"></oj-input-password>
+              <oj-button on-oj-action=[[signIn]]> Sign in</oj-button>
+            </oj-form-layout>
+          </fieldset>
+        </div>
+      </oj-bind-if>
       <footer class="oj-web-applayout-footer" role="contentinfo">
         <div class="oj-web-applayout-footer-item oj-web-applayout-max-width">
           <ul>

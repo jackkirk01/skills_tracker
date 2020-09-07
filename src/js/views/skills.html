@@ -5,85 +5,108 @@
 <div class="oj-hybrid-padding">
 
     <h1>Skills List</h1>
-    <oj-button on-click="[[addSkill]]">Add Skill</oj-button>
-    <oj-button on-click="[[saveChanges]]">Save Changes</oj-button>
+    <div>
+        <oj-validation-group id="validationGroup" role="group">
+            <!-- <oj-form-layout> -->
+                <oj-input-text value="{{inputName}}" required label-hint="Skill Name" label-edge="inside" style="max-width: 200px;"></oj-input-text>
+                <oj-input-text value="{{inputType}}" required label-hint="Type" label-edge="inside" style="max-width: 200px;"></oj-input-text>
+                <oj-select-one value="{{inputPriority}}" required label-hint="Priority" label-edge="inside" style="max-width: 200px;">
+                    <oj-option value="High">High</oj-option>
+                    <oj-option value="Medium">Medium</oj-option>
+                    <oj-option value="Low">Low</oj-option>
+                </oj-select-one>
+                <oj-button on-click="[[addSkill]]">Add Skill</oj-button>
+                
+            <!-- </oj-form-layout> -->
+        </oj-validation-group>
+
+    </div>
+    <!-- <oj-button on-click="">Save Changes</oj-button> -->
 
     <div>
-        <oj-data-grid 
-            id="datagrid"
-            style="height: 500px"
-            data="[[dataSource]]"
-            header.column.style="[[getColumnWidth]]"
-            edit-mode="cellNavigation"
-            on-oj-before-edit-end="[[handleEditEnd]]"
-            banding-interval.row="1"
-            dnd.reorder.row="enable"
-            header.column.renderer="[[oj.KnockoutTemplateUtils.getRenderer('header_template')]]"
-            header.column.style="width:300px"
-            cell.renderer="[[getCellTemplate]]"
-            cell.class-name="oj-helper-justify-content-flex-start">
-        </oj-data-grid>
+        <oj-table id="table" aria-label="Departments Table" data='[[dataprovider]]' edit-mode='rowEdit'
+            edit-row='{{editRow}}' on-oj-before-row-edit='[[beforeRowEditListener]]'
+            on-oj-before-row-edit-end='[[beforeRowEditEndListener]]' columns-default.sortable='disabled'
+            style="width:100%; height:800px" columns='[{"field": "id",
+               "headerText": "Skill ID",
+               "headerStyle": "min-width: 8em; max-width: 8em; width: 8em",
+               "headerClassName": "oj-helper-text-align-end",
+               "style": "min-width: 8em; max-width: 8em; width: 8em",
+               "className": "oj-helper-text-align-end oj-read-only",
+               "template": "skillIdTemplate"},
+              {"field": "name",
+               "headerText": "Name",
+               "headerStyle": "min-width: 50%; max-width: 100%; width: 100%",
+               "style": "min-width: 100%; max-width: 100%; width: 100%",
+               "template": "skillNameTemplate"},
+              {"field":"type",
+               "headerText": "Type",
+               "headerStyle": "min-width: 12em; max-width: 12em; width: 12em",
+               "headerClassName": "oj-helper-text-align-end",
+               "style": "min-width: 50%; max-width: 100%; width: 100%",
+               "className": "oj-helper-text-align-end",
+               "template": "typeTemplate"},
+              {"field":"priority",
+               "headerText": "Priority",
+               "headerStyle": "min-width: 10em; max-width: 10em; width: 10em",
+               "style": "min-width: 10em; max-width: 10em; width: 10em",
+               "template": "priorityTemplate"},
+               {"headerText": "Action",
+               "headerStyle": "min-width: 10em; max-width: 10em; width: 10em; text-align: center;",
+               "style":"min-width: 10em; max-width: 10em; width: 10em; padding-top: 0px; padding-bottom: 0px; text-align: center;",
+               "template": "actionTemplate"}]'>
 
-        <script type="text/html" id="cellTemplate">
-            <!-- ko if: $context.cell.data =='High' -->
-                <span data-bind="text:$context.cell.data, style: {color:'red'}"></span>
-            <!-- /ko -->
-            <!-- ko if: $context.cell.data =='Medium' -->
-                <span data-bind="text:$context.cell.data, style: {color:'orange'}"></span>
-            <!-- /ko -->
-            <!-- ko if: $context.cell.data =='Low' -->
-            <span data-bind="text:$context.cell.data, style: {color:'green'}"></span>
-            <!-- /ko -->
-            <!-- ko ifnot: $context.cell.data =='High' || $context.cell.data =='Medium' || $context.cell.data =='Low'-->
-                <span data-bind="text: $context.cell.data"></span>
-            <!-- /ko -->
-        </script>
-        
-        <script type="text/html" id="editCellTemplate">
-            
-            <!-- ko if: $context.keys.column == 'type' || $context.keys.column == 'name' -->
-                <oj-input-text value="{{$context.cell.data}}" ></oj-input-text>
-            <!-- /ko  -->
+            <template slot="skillIdTemplate" data-oj-as="cell">
+                <oj-bind-text value="[[cell.data]]"></oj-bind-text>
+            </template>
 
-            <!-- ko if: $context.keys.column == 'ModernApps' || $context.keys.column == 'iPaas' || $context.keys.column == 'DevOps'-->
-            <oj-select-one value="{{$context.cell.data}}" class="oj-helper-text-align-start" style="width:100%;height:100%;">
-                <oj-option value="Yes">Yes</oj-option>
-                <oj-option value="No">No</oj-option>
-            </oj-select-one>
-            <!-- /ko  -->
+            <template slot="skillNameTemplate" data-oj-as="cell">
+                <oj-bind-if test='[[cell.mode=="navigation"]]'>
+                    <oj-bind-text value="[[cell.data]]"></oj-bind-text>
+                </oj-bind-if>
 
-            <!-- ko if: $context.keys.column == 'priority' -->
-            <oj-select-one value="{{$context.cell.data}}" class="oj-helper-text-align-start" style="width:100%;height:100%;">
-                <oj-option value="High" style="color:red">High</oj-option>
-                <oj-option value="Medium" style="color:orange">Medium</oj-option>
-                <oj-option value="Low" style="color:green">Low</oj-option>
-            </oj-select-one>
-            <!-- /ko  -->
+                <oj-bind-if test='[[cell.mode=="edit"]]'>
+                    <oj-input-text id="it1" value="{{rowData.name}}"></oj-input-text>
 
-            <!-- <oj-input-text value="{{$context.cell.data}}" ></oj-input-text> -->
+                </oj-bind-if>
+            </template>
 
-        </script>
-        
-        <script type="text/html" id="header_template">
-        <!-- ko if: $context.key=='name' -->            
-            <span data-bind="text: 'Skill Name'"></span>
+            <template slot="typeTemplate" data-oj-as="cell">
+                <oj-bind-if test='[[cell.mode=="navigation"]]'>
+                    <oj-bind-text value="[[cell.data]]"></oj-bind-text>
+                </oj-bind-if>
 
-        <!-- /ko -->
-        <!-- ko if: $context.key=='type' -->
-            <span data-bind="text: 'Skill Type'"></span>
-        <!-- /ko -->
-        <!-- ko if: $context.key=='iPaas' -->
-            <span data-bind="text: 'iPaaS'"></span>
-        <!-- /ko -->
-        <!-- ko if: $context.key=='ModernApps' -->
-            <span data-bind="text: 'Modern Apps'"></span>
-        <!-- /ko -->
-        <!-- ko if: $context.key=='DevOps' -->
-        <span data-bind="text: 'DevOps'"></span>                                        
-        <!-- /ko -->
-        <!-- ko if: $context.key=='priority' -->
-            <span data-bind="text: 'Priority'"></span>
-        <!-- /ko -->
-        </script>	
+                <oj-bind-if test='[[cell.mode=="edit"]]'>
+                    <oj-input-text id="it2" value="{{rowData.type}}"></oj-input-text>
+                </oj-bind-if>
+            </template>
+
+            <template slot="priorityTemplate" data-oj-as="cell">
+                <oj-bind-if test='[[cell.mode=="navigation"]]'>
+                    <oj-bind-text value="[[cell.data]]"></oj-bind-text>
+                </oj-bind-if>
+
+                <oj-bind-if test='[[cell.mode=="edit"]]'>
+                    <oj-select-one id="so1" aria-label="type" value='{{rowData.priority}}'>
+                        <oj-option value="High">High</oj-option>
+                        <oj-option value="Medium">Medium</oj-option>
+                        <oj-option value="Low">Low</oj-option>
+                    </oj-select-one>
+                </oj-bind-if>
+            </template>
+
+            <template slot="actionTemplate" data-oj-as="cell">
+                <oj-bind-if test='[[cell.mode=="navigation"]]'>
+                    <oj-button on-oj-action="[[handleUpdate]]" style="width:5em;margin-bottom: 0px;"><span>Edit</span>
+                    </oj-button>
+                </oj-bind-if>
+
+                <oj-bind-if test='[[cell.mode=="edit"]]'>
+                    <oj-button on-oj-action="[[handleDone]]" style="width:5em;margin-bottom: 0px;"><span>Save</span>
+                    </oj-button>
+                </oj-bind-if>
+            </template>
+
+        </oj-table>
     </div>
 </div>

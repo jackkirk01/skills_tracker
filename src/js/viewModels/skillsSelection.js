@@ -6,12 +6,12 @@ define(['accUtils', 'knockout', 'ojs/ojbootstrap', 'ojs/ojcollectiondataprovider
       var self = this;
       self.editRow = ko.observable();
       var proficiencies = [{ value: 'introductory', label: 'Introductory' },
-                          { value: 'progressing', label: 'progressing' },
-                          { value: 'proficient', label: 'Proficient' },
-                          { value: 'experienced', label: 'Experienced' },
-                          { value: 'expert', label: 'Expert' }];
+                           { value: 'progressing', label: 'Progressing' },
+                           { value: 'proficient', label: 'Proficient' },
+                           { value: 'experienced', label: 'Experienced' },
+                           { value: 'expert', label: 'Expert' }];
 
-      self.proficiencyOptions = new ArrayDataProvider(proficiencies, { keyAttributes: 'value' });
+      self.proficiencyOptions = new ArrayDataProvider(proficiencies, {keyAttributes: 'value'});
 
       self.filter = ko.observable();
 
@@ -25,23 +25,18 @@ define(['accUtils', 'knockout', 'ojs/ojbootstrap', 'ojs/ojcollectiondataprovider
       // WIP code for removing items from the all skills list if user already has those skills.
       //---------------------------------------------------------------------------------------
 
-      self.skillsCollection().fetch({
-        success: function (collection) {
-          oj.Logger.error(collection.length);
-          oj.Logger.error(collection.models[0]);
-              
-          UserFactory.createUserModel().fetch({
-            success: function (model) {
-  
+      UserFactory.createUserModel().fetch({
+        success: function (model) {
+          self.skillsCollection().fetch({
+            success: function (collection) {
+
               self.listviewArr(model.get('skills'));
 
               self.skillsCollection().remove(model.get('skills'));
-  
-              oj.Logger.error(self.skillsCollection().models);
+
             }
           })
-  
-          }
+        }
       })
 
       self.tableDataProvider = ko.computed(function () {
@@ -151,6 +146,16 @@ define(['accUtils', 'knockout', 'ojs/ojbootstrap', 'ojs/ojcollectiondataprovider
       self.clearClick = function (event) {
         self.filter('');
         return true;
+      }
+
+      self.removeSkill = function (context, event) {
+        oj.Logger.error(event.key);
+        oj.Logger.error(self.listviewArr().find(element => element.id === event.key));
+        self.skillsCollection().create(self.listviewArr().find(element => element.id === event.key));
+        self.listviewArr(self.listviewArr().filter(function( obj ) {
+          return obj.id !== event.key;
+        }));
+
       }
 
       self.highlightingCellRenderer = function (context) {

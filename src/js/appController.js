@@ -7,12 +7,14 @@
 /*
  * Your application specific code will go here
  */
-define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/ojresponsiveknockoututils', 'ojs/ojrouter', 'ojs/ojarraydataprovider', 'ojs/ojknockouttemplateutils', 'ojs/ojmodule-element', 'ojs/ojknockout'],
+define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/ojresponsiveknockoututils', 'ojs/ojrouter', 'ojs/ojarraydataprovider', 'ojs/ojknockouttemplateutils', 'ojs/ojmodule-element', 'ojs/ojknockout', 'ojs/ojinputtext','ojs/ojformlayout'],
   function(ko, moduleUtils, ResponsiveUtils, ResponsiveKnockoutUtils, Router, ArrayDataProvider, KnockoutTemplateUtils) {
      function ControllerViewModel() {
         var self = this;
 
         self.KnockoutTemplateUtils = KnockoutTemplateUtils;
+
+        self.loggedIn = ko.observable(true);
 
         // Handle announcements sent when pages change, for Accessibility.
         self.manner = ko.observable('polite');
@@ -33,8 +35,8 @@ define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/
        // Router setup
        self.router = Router.rootInstance;
        self.router.configure({
-         'dashboard': {label:'Dashboard'},
-         'skills': {label: 'Skills', isDefault: true},
+         'dashboard': {label:'Dashboard', isDefault: true},
+         'skills': {label: 'Skills'},
          'users': {label: 'Users'},
          'test': {label: 'Test'},
          'skillsSelection': {label: 'Select Skills'},
@@ -53,24 +55,60 @@ define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/
         });
       };
 
-      // Navigation setup
-      var navData = [
-      {name: 'Dashboard', id: 'dashboard',
-       iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-chart-icon-24'},
-      {name: 'Edit Skills', id: 'skills',
-       iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-fire-icon-24'},
-      {name: 'Users', id: 'users',
-       iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-people-icon-24'},
-      {name: 'Select Skills', id: 'skillsSelection',
-       iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-info-icon-24'}
-      ];
-      self.navDataProvider = new ArrayDataProvider(navData, {keyAttributes: 'id'});
-
       // Header
       // Application Name used in Branding Area
       self.appName = ko.observable("Capgemini - Skills tracker");
+      // Current user
+      self.user = ko.observable()
       // User Info used in Global Navigation area
-      self.userLogin = ko.observable("john.hancock@oracle.com");
+      self.userLogin = ko.observable("");
+
+      self.navData = ko.observableArray([
+        {name: 'Dashboard', id: 'dashboard',
+         iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-chart-icon-24'},
+        {name: 'Skills Manager', id: 'skills',
+         iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-fire-icon-24'},
+        {name: 'Users', id: 'users',
+         iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-people-icon-24'},
+        {name: 'My Skills', id: 'skillsSelection',
+         iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-info-icon-24'}
+        ]);
+
+      self.navDataProvider = new ArrayDataProvider(self.navData(), {keyAttributes: 'id'});
+
+      self.signIn = function () {
+        if (self.userLogin().toUpperCase() === "JACK") {
+          // Navigation setup
+          self.navData([
+            {name: 'Dashboard', id: 'dashboard',
+            iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-chart-icon-24'},
+            {name: 'Skills Manager', id: 'skills',
+            iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-fire-icon-24'},
+            {name: 'Users', id: 'users',
+            iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-people-icon-24'},
+            {name: 'My Skills', id: 'skillsSelection',
+            iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-info-icon-24'}
+          ]);
+        } else {
+          oj.Logger.error("hit");
+          self.navData([
+            {name: 'My Skills', id: 'skillsSelection',
+            iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-info-icon-24'}
+          ]);
+          self.router.configure({
+            'dashboard': {label:'Dashboard'},
+            'skills': {label: 'Skills'},
+            'users': {label: 'Users'},
+            'test': {label: 'Test'},
+            'skillsSelection': {label: 'Select Skills', isDefault: true},
+            'customers': {label: 'Customers'},
+            'incidents': {label: 'Incidents'},
+          });
+        }
+        self.navDataProvider = new ArrayDataProvider(self.navData(), {keyAttributes: 'id'});
+
+        self.loggedIn(true);
+      }
 
       // Footer
       function footerLink(name, id, linkTarget) {
