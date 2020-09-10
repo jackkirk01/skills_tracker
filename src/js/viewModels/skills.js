@@ -6,10 +6,10 @@
  * Your skills ViewModel code goes here
  */
 define(['ojs/ojcore', 'knockout', 'jquery', 'factories/SkillFactory', 'ojs/ojcollectiondataprovider', 'ojs/ojdatacollection-utils',
-  'ojs/ojknockout', 'ojs/ojdatagrid', 'ojs/ojcollectiondatagriddatasource',
+  'ojs/ojlistdataproviderview', 'ojs/ojknockout', 'ojs/ojdatagrid', 'ojs/ojcollectiondatagriddatasource',
   'ojs/ojinputtext', 'ojs/ojselectcombobox', 'ojs/ojtable', 'ojs/ojvalidationgroup'],
 
-  function (oj, ko, $, SkillFactory, CollectionDataProvider, DataCollectionEditUtils) {
+  function (oj, ko, $, SkillFactory, CollectionDataProvider, DataCollectionEditUtils, ListDataProviderView) {
 
     function SkillsViewModel() {
 
@@ -19,7 +19,8 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'factories/SkillFactory', 'ojs/ojcol
 
       self.skillCollection = ko.observable(SkillFactory.createSkillCollection());
 
-      self.dataprovider = new CollectionDataProvider(self.skillCollection(), { keyAttributes: 'id' });
+      self.dataprovider = new CollectionDataProvider(self.skillCollection(), { keyAttributes: 'skillId'});
+      self.dataproviderView = new ListDataProviderView(self.dataprovider, {sortCriteria: [{ attribute: 'skillId', direction: 'descending' }]});
 
       self.editRow = ko.observable();
 
@@ -45,7 +46,9 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'factories/SkillFactory', 'ojs/ojcol
         if (DataCollectionEditUtils.basicHandleRowEditEnd(event, detail) === false) {
           event.preventDefault();
         } else {
-          self.skillCollection().get(self.rowData.id).save();
+          oj.Logger.error(self.skillCollection().get(self.rowData.skillId));
+          // self.skillCollection().set([self.rowData]);
+          self.skillCollection().get(self.rowData.skillId).save(self.rowData);
         }
       }
 
@@ -77,7 +80,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'factories/SkillFactory', 'ojs/ojcol
           self.skillCollection().create({name:self.inputName(), type:self.inputType(), priority:self.inputPriority()}, {at:0})
           self.inputName("");
           self.inputType("");
-          self.inputPriority("");
+          self.skillCollection().refresh();
         }
 
       };

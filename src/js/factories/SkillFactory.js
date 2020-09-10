@@ -3,16 +3,17 @@ function (oj) {
 
   var SkillFactory = {
 
-      skillUri: 'data/skills.json',
+    //   skillUri: 'data/skills.json',
     //   skillUri: 'http://140.238.89.200:8080/skills-tracker/v1/skills/',
     //   skillUri: 'https://private-532dfa-skillstracker.apiary-mock.com/skills-tracker/v1/skills/',
+      skillUri: 'http://140.238.89.200:8080/skills-tracker/v1/skills',
       skillsInUseUri: 'data/skillsInUse.json',
       skillByIdUri: 'data/skill.json',
       
       createSkillModel: function () {
 
           var Skill = oj.Model.extend({
-              urlRoot: this.skillByIdUri, 
+              urlRoot: this.skillUri, 
               parse: function(response) {
 
             //     var iPaas = "N";
@@ -32,7 +33,7 @@ function (oj) {
             //     // }
 
                 return {
-                    "id": response.id,
+                    "skillId": response.skillId,
                     "name": response.name,
                     "type": response.type,
                     // "iPaas": iPaas,
@@ -43,7 +44,7 @@ function (oj) {
                 };
 
               },
-              idAttribute: "id"
+              idAttribute: "skillId"
           });
 
           return new Skill();
@@ -54,7 +55,8 @@ function (oj) {
 
           var Skills = oj.Collection.extend({
               url: this.skillUri, 
-              model: this.createSkillModel()
+              model: this.createSkillModel(),
+              idAttribute: "skillId"
           });
 
           return new Skills();
@@ -65,7 +67,7 @@ function (oj) {
 
         var Skill = oj.Model.extend({
             urlRoot: this.skillsInUseUri,
-            idAttribute: "id"
+            idAttribute: "skillId"
         });
 
         return new Skill();

@@ -7,8 +7,8 @@
 /*
  * Your application specific code will go here
  */
-define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/ojresponsiveknockoututils', 'ojs/ojrouter', 'ojs/ojarraydataprovider', 'ojs/ojknockouttemplateutils', 'ojs/ojmodule-element', 'ojs/ojknockout', 'ojs/ojinputtext','ojs/ojformlayout'],
-  function(ko, moduleUtils, ResponsiveUtils, ResponsiveKnockoutUtils, Router, ArrayDataProvider, KnockoutTemplateUtils) {
+define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/ojresponsiveknockoututils', 'ojs/ojrouter', 'ojs/ojarraydataprovider', 'ojs/ojknockouttemplateutils', 'factories/UserFactory', 'ojs/ojmodule-element', 'ojs/ojknockout', 'ojs/ojinputtext','ojs/ojformlayout'],
+  function(ko, moduleUtils, ResponsiveUtils, ResponsiveKnockoutUtils, Router, ArrayDataProvider, KnockoutTemplateUtils, UserFactory) {
      function ControllerViewModel() {
         var self = this;
 
@@ -61,7 +61,7 @@ define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/
       // Current user
       self.user = ko.observable()
       // User Info used in Global Navigation area
-      self.userLogin = ko.observable("");
+      self.userLogin = ko.observable("Jack Kirk");
 
       self.navData = ko.observableArray([
         {name: 'Dashboard', id: 'dashboard',
@@ -77,7 +77,9 @@ define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/
       self.navDataProvider = new ArrayDataProvider(self.navData(), {keyAttributes: 'id'});
 
       self.signIn = function () {
+
         if (self.userLogin().toUpperCase() === "JACK") {
+          self.userLogin("Jack Kirk");
           // Navigation setup
           self.navData([
             {name: 'Dashboard', id: 'dashboard',
@@ -90,7 +92,10 @@ define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/
             iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-info-icon-24'}
           ]);
         } else {
-          oj.Logger.error("hit");
+          
+          self.userLogin("Chris Hollies");
+          
+          
           self.navData([
             {name: 'My Skills', id: 'skillsSelection',
             iconClass: 'oj-navigationlist-item-icon demo-icon-font-24 demo-info-icon-24'}

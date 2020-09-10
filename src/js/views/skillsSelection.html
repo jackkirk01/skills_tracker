@@ -47,13 +47,13 @@
             </div>
             <div class="oj-flex-item">
               <div class="oj-flex oj-sm-justify-content-flex-end">
-                <oj-select-single value="proficient" data="[[proficiencyOptions]]" style="width:150px">
+                <oj-select-single value="[[item.data.proficiency]]" data="[[proficiencyOptions]]" on-value-changed="[[proficiencySelectListener]]" style="width:150px">
                 </oj-select-single>
               </div>
             </div>
             <!-- <div class="oj-flex-item"> -->
               <div class="oj-flex oj-sm-justify-content-flex-end">
-                <oj-button id=[[item.data.id]] on-oj-action='[[removeSkill]]' display='icons' chroming='half'>
+                <oj-button id=[[item.data.skillId]] on-oj-action='[[removeSkill]]' display='icons' chroming='half'>
                   <span slot='startIcon' class='oj-fwk-icon oj-fwk-icon-cross03'></span>
                 </oj-button>
               </div>

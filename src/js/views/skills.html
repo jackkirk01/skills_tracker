@@ -11,9 +11,9 @@
                 <oj-input-text value="{{inputName}}" required label-hint="Skill Name" label-edge="inside" style="max-width: 200px;"></oj-input-text>
                 <oj-input-text value="{{inputType}}" required label-hint="Type" label-edge="inside" style="max-width: 200px;"></oj-input-text>
                 <oj-select-one value="{{inputPriority}}" required label-hint="Priority" label-edge="inside" style="max-width: 200px;">
-                    <oj-option value="High">High</oj-option>
-                    <oj-option value="Medium">Medium</oj-option>
-                    <oj-option value="Low">Low</oj-option>
+                    <oj-option value="HIGH">High</oj-option>
+                    <oj-option value="MEDIUM">Medium</oj-option>
+                    <oj-option value="LOW">Low</oj-option>
                 </oj-select-one>
                 <oj-button on-click="[[addSkill]]">Add Skill</oj-button>
                 
@@ -24,10 +24,10 @@
     <!-- <oj-button on-click="">Save Changes</oj-button> -->
 
     <div>
-        <oj-table id="table" aria-label="Departments Table" data='[[dataprovider]]' edit-mode='rowEdit'
+        <oj-table id="table" data='[[dataproviderView]]' edit-mode='rowEdit'
             edit-row='{{editRow}}' on-oj-before-row-edit='[[beforeRowEditListener]]'
             on-oj-before-row-edit-end='[[beforeRowEditEndListener]]' columns-default.sortable='disabled'
-            style="width:100%; height:800px" columns='[{"field": "id",
+            style="width:100%; height:800px" columns='[{"field": "skillId",
                "headerText": "Skill ID",
                "headerStyle": "min-width: 8em; max-width: 8em; width: 8em",
                "headerClassName": "oj-helper-text-align-end",
@@ -88,9 +88,9 @@
 
                 <oj-bind-if test='[[cell.mode=="edit"]]'>
                     <oj-select-one id="so1" aria-label="type" value='{{rowData.priority}}'>
-                        <oj-option value="High">High</oj-option>
-                        <oj-option value="Medium">Medium</oj-option>
-                        <oj-option value="Low">Low</oj-option>
+                        <oj-option value="HIGH">High</oj-option>
+                        <oj-option value="MEDIUM">Medium</oj-option>
+                        <oj-option value="LOW">Low</oj-option>
                     </oj-select-one>
                 </oj-bind-if>
             </template>
