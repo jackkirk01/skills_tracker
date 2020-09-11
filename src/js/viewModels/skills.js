@@ -29,7 +29,6 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'factories/SkillFactory', 'ojs/ojcol
       self.inputPriority = ko.observable();
 
       self.beforeRowEditListener = function (event) {
-        oj.Logger.error("hit");
         var key = event.detail.rowContext.status.rowKey;
         self.dataprovider.fetchByKeys({ keys: [key] }).then(function (fetchResult) {
           self.rowData = {};
@@ -46,15 +45,12 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'factories/SkillFactory', 'ojs/ojcol
         if (DataCollectionEditUtils.basicHandleRowEditEnd(event, detail) === false) {
           event.preventDefault();
         } else {
-          oj.Logger.error(self.skillCollection().get(self.rowData.skillId));
           // self.skillCollection().set([self.rowData]);
           self.skillCollection().get(self.rowData.skillId).save(self.rowData);
         }
       }
 
       self.handleUpdate = function (event, context) {
-          oj.Logger.error(event);
-          oj.Logger.error(context);
         
         if(!context.key) {
           self.editRow({ rowKey: null, rowIndex: 0});
@@ -72,17 +68,17 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'factories/SkillFactory', 'ojs/ojcol
       self.addSkill = function() {
 
         var validationGroup = document.getElementById('validationGroup');
-        oj.Logger.error(validationGroup.valid);
 
         if(validationGroup.valid.includes("invalid")) {
           validationGroup.showMessages();
         } else {
-          self.skillCollection().create({name:self.inputName(), type:self.inputType(), priority:self.inputPriority()}, {at:0})
+
+          self.skillCollection().create({name:self.inputName(), type:self.inputType(), priority:self.inputPriority()}, {at:0});
+
           self.inputName("");
           self.inputType("");
-          self.skillCollection().refresh();
+          // self.skillCollection().refresh();
         }
-
       };
 
       /**

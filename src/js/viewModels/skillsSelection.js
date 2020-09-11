@@ -128,6 +128,8 @@ define(['accUtils', 'knockout', 'ojs/ojbootstrap', 'ojs/ojcollectiondataprovider
             self.listviewArr().push(data[i].data);
           }
         }
+
+        self.currentUser.set("lastUpdatedSkills", new Date());
         
         self.currentUser.save({skills:self.listviewArr()});
 
@@ -174,6 +176,7 @@ define(['accUtils', 'knockout', 'ojs/ojbootstrap', 'ojs/ojcollectiondataprovider
       self.proficiencySelectListener = function (context, event) {
         var skill  = event.data;
         skill.proficiency = context.detail.value.toUpperCase();
+        self.currentUser.set("lastUpdatedSkills", new Date());
         self.currentUser.save({skills:self.listviewArr()});
       }
 
@@ -228,7 +231,7 @@ define(['accUtils', 'knockout', 'ojs/ojbootstrap', 'ojs/ojcollectiondataprovider
           field: "priority",
           headerText: "Priority",
           // headerStyle: "min-width: 10em; max-width: 10em; width: 10em",
-          style: "min-width: 80px; max-width: 80px; width: 80px",
+          style: "min-width: 100px; max-width: 100px; width: 100px",
           renderer: self.highlightingCellRenderer
         }];
 

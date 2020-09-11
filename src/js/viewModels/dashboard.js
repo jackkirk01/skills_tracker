@@ -352,6 +352,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'factories/UserFactory', 'factories/
             self.totalUsers(self.userCollection.size());
             var sixMonthsAgoDate = new Date();
             sixMonthsAgoDate.setMonth(sixMonthsAgoDate.getMonth() - 6);
+            self.totalUsersUpdatedRecently(0);
 
             collection.each(user => {
 

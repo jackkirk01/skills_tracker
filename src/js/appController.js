@@ -14,7 +14,7 @@ define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/
 
         self.KnockoutTemplateUtils = KnockoutTemplateUtils;
 
-        self.loggedIn = ko.observable(true);
+        self.loggedIn = ko.observable(false);
 
         // Handle announcements sent when pages change, for Accessibility.
         self.manner = ko.observable('polite');
@@ -122,11 +122,11 @@ define(['knockout', 'ojs/ojmodule-element-utils', 'ojs/ojresponsiveutils', 'ojs/
         this.linkTarget = linkTarget;
       }
       self.footerLinks = ko.observableArray([
-        new footerLink('About Oracle', 'aboutOracle', 'http://www.oracle.com/us/corporate/index.html#menu-about'),
-        new footerLink('Contact Us', 'contactUs', 'http://www.oracle.com/us/corporate/contact/index.html'),
-        new footerLink('Legal Notices', 'legalNotices', 'http://www.oracle.com/us/legal/index.html'),
-        new footerLink('Terms Of Use', 'termsOfUse', 'http://www.oracle.com/us/legal/terms/index.html'),
-        new footerLink('Your Privacy Rights', 'yourPrivacyRights', 'http://www.oracle.com/us/legal/privacy/index.html')
+        new footerLink('About Capgemini', 'aboutOracle', 'https://www.capgemini.com/our-company/'),
+        new footerLink('Contact Us', 'contactUs', 'https://www.capgemini.com/contact-capgemini/'),
+        new footerLink('Legal Notices', 'legalNotices', 'https://www.capgemini.com/legal-information-mentions-legales/'),
+        new footerLink('Terms Of Use', 'termsOfUse', 'https://www.capgemini.com/terms-of-use/'),
+        new footerLink('Privacy Policy', 'yourPrivacyRights', 'https://www.capgemini.com/privacy-policy/')
       ]);
      }
 
